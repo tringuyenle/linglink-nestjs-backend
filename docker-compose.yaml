@@ -1,0 +1,16 @@
+# Use root/example as user/password credentials
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: linklink_docker_compose
+    env_file: 
+      - .env
+    ports:
+      - '3003:3000'
+    network_mode: host
+    volumes:
+      - ./src:/app/src
