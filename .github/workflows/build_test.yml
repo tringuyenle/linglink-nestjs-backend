@@ -27,14 +27,14 @@ jobs:
         # cache: 'npm'
 
     - name: Run install
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install # will run `yarn install` command
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: install # will run `yarn install` command
 
     - name: Run build
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: build
 
       # - name: Test the app
       #   uses: borales/actions-yarn@v4
