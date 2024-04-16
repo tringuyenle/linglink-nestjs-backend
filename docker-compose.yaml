@@ -11,6 +11,5 @@ services:
       - .env
     ports:
       - '3003:3000'
-    network_mode: host
     volumes:
       - ./src:/app/src
