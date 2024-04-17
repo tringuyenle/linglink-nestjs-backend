@@ -51,6 +51,11 @@ jobs:
       with:
         cmd: build
 
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./out
+
       # - name: Test the app
       #   uses: borales/actions-yarn@v4
       #   with:
