@@ -94,4 +94,6 @@ jobs:
               cd /etc
               sudo docker run --name linglink -p 3000:3000 --env-file app.env -d tringuyennek/linglink-system
               exit
+            
+          rm private_key
 
