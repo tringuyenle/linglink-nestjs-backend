@@ -3,9 +3,9 @@ name: Build And Test LingLink System
 on:
   workflow_call:
     outputs:
-    result:
-      description: "Result of the workflow Build And Test LingLink System"
-      value: ${{ jobs.build_test.outcome }}
+      result:
+        description: "Result of the workflow Build And Test LingLink System"
+        value: ${{ jobs.build_test.outcome }}
 
 jobs:
   build_test:
