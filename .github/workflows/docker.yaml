@@ -10,10 +10,11 @@ env:
   IMAGE_NAME: linglink-system
 
 jobs:
+  build_test:
+    uses: ./.github/workflows/build_test.yml
   docker:
     needs: build_test
     if: ${{ needs.build_test.outputs.result == 'success' }}
-    uses: ./.github/workflows/build_test.yml
     runs-on: ubuntu-latest
     environment: 
       name: linglink
