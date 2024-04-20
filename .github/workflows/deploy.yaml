@@ -1,15 +1,16 @@
 name: Deploy LingLink System
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Build And Push Docker Image with Git"]
+    branches: [main]
+    types: 
+      - completed
 
 jobs:
   docker:
     uses: ./.github/workflows/docker.yaml
-    
+
   deploy:
     needs: docker
     runs-on: ubuntu-latest

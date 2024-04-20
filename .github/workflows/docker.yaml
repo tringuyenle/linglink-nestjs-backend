@@ -1,16 +1,17 @@
 name: Build And Push Docker Image with Git
 
 on:
-  workflow_call:
+  workflow_run:
+    workflows: ["Build And Test LingLink System"]
+    branches: [main]
+    types: 
+      - completed
 
 env:
   IMAGE_NAME: linglink-system
 
 jobs:
-  build_test:
-    uses: ./.github/workflows/build_test.yml
-  docker:
-    needs: build_test
+  push_new_image:
     runs-on: ubuntu-latest
     environment: 
       name: linglink
