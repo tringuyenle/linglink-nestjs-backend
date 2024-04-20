@@ -41,7 +41,12 @@ jobs:
         cmd: test # will run `yarn test` command
 
     - name: Print result
-      run: echo "Result ${{ jobs.build_test.outcome }}"
+      run: |
+        if ${{ success() }}; then
+          echo "Result: success"
+        elif ${{ failure() }}; then
+          echo "Result: failure"
+
     # - name: Test source app
     #   uses: borales/actions-yarn@v4
     #   with:
