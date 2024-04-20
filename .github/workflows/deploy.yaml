@@ -1,23 +1,23 @@
-name: Deploy LingLink System
+# name: Deploy LingLink System
 
-on:
-  workflow_run:
-    workflows: ["Build And Push Docker Image with Git"]
-    branches: [main]
-    types: 
-      - completed
+# on:
+#   workflow_run:
+#     workflows: ["Build And Push Docker Image with Git"]
+#     branches: [main]
+#     types: 
+#       - completed
 
-jobs:
-  docker:
-    uses: ./.github/workflows/docker.yaml
+# jobs:
+#   docker:
+#     uses: ./.github/workflows/docker.yaml
 
-  deploy:
-    needs: docker
-    runs-on: ubuntu-latest
+#   deploy:
+#     needs: docker
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-      - name: Print results
-        run: echo "Success"
+#       - name: Print results
+#         run: echo "Success"

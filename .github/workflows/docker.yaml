@@ -1,40 +1,40 @@
-name: Build And Push Docker Image with Git
+# name: Build And Push Docker Image with Git
 
-on:
-  workflow_run:
-    workflows: ["Build And Test LingLink System"]
-    branches: [main]
-    types: 
-      - completed
+# on:
+#   workflow_run:
+#     workflows: ["Build And Test LingLink System"]
+#     branches: [main]
+#     types: 
+#       - completed
 
-env:
-  IMAGE_NAME: linglink-system
+# env:
+#   IMAGE_NAME: linglink-system
 
-jobs:
-  push_new_image:
-    runs-on: ubuntu-latest
-    environment: 
-      name: linglink
+# jobs:
+#   push_new_image:
+#     runs-on: ubuntu-latest
+#     environment: 
+#       name: linglink
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+#       - name: Login to Docker Hub
+#         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Get commit ID
-        id: commit_id
-        run: echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+#       - name: Get commit ID
+#         id: commit_id
+#         run: echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }} .
+#       - name: Build Docker image
+#         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }} .
 
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
+#       - name: Push Docker image
+#         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
 
-      - name: Rename Docker image
-        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+#       - name: Rename Docker image
+#         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Push Image latest
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+#       - name: Push Image latest
+#         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
