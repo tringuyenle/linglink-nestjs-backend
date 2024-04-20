@@ -14,12 +14,15 @@ jobs:
     uses: ./.github/workflows/build_test.yml
   docker:
     needs: build_test
-    if: ${{ needs.build_test.outputs.result == 'success' }}
+    # if: ${{ needs.build_test.outputs.result == 'success' }}
     runs-on: ubuntu-latest
     environment: 
       name: linglink
 
     steps:
+      - name: print result build_test
+        uses: echo ${{ needs.build_test.outputs.result == 'success' }}
+
       - name: Checkout
         uses: actions/checkout@v3
 
