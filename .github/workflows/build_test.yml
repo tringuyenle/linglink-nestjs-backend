@@ -19,12 +19,15 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 20.11.1
-        # cache: 'npm'
+        cache: 'npm'
 
     - name: Run install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: install # will run `yarn install` command
+      run: npm ci
+
+    # - name: Run install
+    #   uses: borales/actions-yarn@v4
+    #   with:
+    #     cmd: install # will run `yarn install` command (not working)
 
     - name: Run build
       uses: borales/actions-yarn@v4
