@@ -1,28 +1,28 @@
-import { IsNotEmpty } from 'class-validator'
-import { Question } from '../../../schemas/question.schema'
-import { User } from '../../../schemas/user.schema'
+import { IsNotEmpty } from 'class-validator';
+import { Question } from '../../../schemas/question.schema';
+import { User } from '../../../schemas/user.schema';
 
 export class UpdatePostDTO {
-  topic: string
+  topic: string;
 
   @IsNotEmpty()
-  content: string
+  content: string;
 
-  question: Question
+  question: Question;
 
-  img_url: string
+  img_url: string;
 
-  upVotes: number
+  upVotes: number;
 
-  upVotesList: User[]
+  upVotesList: User[];
 
-  downVotes: number
+  downVotes: number;
 
-  downVotesList: User[]
+  downVotesList: User[];
 
-  author: User
+  author: User;
 
-  createdAt: Date
+  createdAt: Date;
 
-  updatedAt: Date
+  updatedAt: Date;
 }

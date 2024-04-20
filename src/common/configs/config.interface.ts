@@ -1,9 +1,9 @@
 export interface Config {
-  security: SecurityConfig
+  security: SecurityConfig;
 }
 
 export interface SecurityConfig {
-  expiresIn: string
-  refreshIn: string
-  bcryptSaltOrRound: string | number
+  expiresIn: string;
+  refreshIn: string;
+  bcryptSaltOrRound: string | number;
 }

@@ -13,3 +13,12 @@ services:
       - '3003:3000'
     volumes:
       - ./src:/app/src
+# build with image 
+    # image: tringuyennek/linglink-system:latest
+    # container_name: linklink
+    # env_file: 
+    #   - .env
+    # ports:
+    #   - '3003:3000'
+    # volumes:
+    #   - ./src:/app/src

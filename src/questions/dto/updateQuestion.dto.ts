@@ -1,13 +1,13 @@
 export class UpdateQuestionDTO {
-  tagsListId: string[]
+  tagsListId: string[];
 
-  content: string
+  content: string;
 
-  answer: string[]
+  answer: string[];
 
-  key: number
+  key: number;
 
-  img_url: string
+  img_url: string;
 
-  audio_url: string
+  audio_url: string;
 }
