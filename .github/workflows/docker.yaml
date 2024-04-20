@@ -1,19 +1,17 @@
-name: Tag Docker Image with Git
+name: Build And Push Docker Image with Git
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Build And Test LingLink System"]
+    branches: [main]
+    types: 
+      - completed
 
 env:
   IMAGE_NAME: linglink-system
 
 jobs:
   docker:
-    needs: build_test
     runs-on: ubuntu-latest
     environment: 
       name: linglink

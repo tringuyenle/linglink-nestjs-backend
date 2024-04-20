@@ -1,4 +1,4 @@
-name: Build LingLink System
+name: Build And Test LingLink System
 
 on:
   push:
