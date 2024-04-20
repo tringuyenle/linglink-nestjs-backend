@@ -24,8 +24,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: print result build_test
-        run: echo ${{ needs.build_test.outputs.result == 'success' }}
-        
+        run: echo ${{ needs.build_test.outputs.result }}
+
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
