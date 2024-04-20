@@ -11,7 +11,7 @@ env:
 
 jobs:
   build_test:
-    name: Build and Test
+    name: Build And Test System
     runs-on: ubuntu-latest
 
     steps:
@@ -38,6 +38,7 @@ jobs:
         cmd: test # will run `yarn test` command. we can use run lint instead
 
   push_new_image:
+    name: Build And Push New Image Into DockerHub
     needs: build_test
     runs-on: ubuntu-latest
     environment: 
@@ -67,6 +68,7 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
   deploy:
+    name: Deploy System To EC2 Instance
     needs: push_new_image
     runs-on: ubuntu-latest
 
@@ -74,5 +76,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Print results
-        run: echo "Success"
+      - name: Deploy Into EC2 Instance
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.SSH_HOST}}
+            USER_NAME: ${{secrets.USER_NAME}}
+      
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -i private_key ${USER_NAME}@${HOSTNAME}
+
+              # Now we have got the access of EC2 and we will start the deploy .
+              sudo docker stop linglink
+              sudo docker remove linglink
+              sudo docker rmi tringuyennek/linglink-system
+              sudo docker pull tringuyennek/linglink-system:latest
+              cd /etc
+              sudo docker run --name linglink -p 3000:3000 --env-file app.env -d tringuyennek/linglink-system
+              exit
+
