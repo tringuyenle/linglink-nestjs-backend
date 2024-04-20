@@ -14,7 +14,6 @@ jobs:
     uses: ./.github/workflows/build_test.yml
   docker:
     needs: build_test
-    # if: ${{ needs.build_test.outputs.result == 'success' }}
     runs-on: ubuntu-latest
     environment: 
       name: linglink
@@ -22,9 +21,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: print result build_test
-        run: echo ${{ needs.build_test.outputs.result.value }}
 
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
