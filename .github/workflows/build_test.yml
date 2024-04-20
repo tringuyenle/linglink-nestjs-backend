@@ -25,9 +25,6 @@ jobs:
     - name: Run install
       run: npm ci
 
-    - name: Print result
-      run: echo "Result ${{ jobs.build_test.outcome }}"
-
     # - name: Run install
     #   uses: borales/actions-yarn@v4
     #   with:
@@ -43,6 +40,8 @@ jobs:
       with:
         cmd: test # will run `yarn test` command
 
+    - name: Print result
+      run: echo "Result ${{ jobs.build_test.outcome }}"
     # - name: Test source app
     #   uses: borales/actions-yarn@v4
     #   with:
