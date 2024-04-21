@@ -1,5 +1,5 @@
 enum QuestionTypes {
-  MULTIPLE_CHOICE = 'multiple_choice',
+  MULTIPLE_CHOICE = 'multiple_choice'
 }
 
-export { QuestionTypes };
+export { QuestionTypes }

@@ -1,13 +1,13 @@
-import { IsNotEmpty } from 'class-validator';
-import { Post } from '../../../schemas/post.schema';
+import { IsNotEmpty } from 'class-validator'
+import { Post } from '../../../schemas/post.schema'
 
 export class CreateTopicDTO {
   @IsNotEmpty()
-  topicName: string;
+  topicName: string
 
-  postsList: Post[];
+  postsList: Post[]
 
-  createdAt: Date;
+  createdAt: Date
 
-  updatedAt: Date;
+  updatedAt: Date
 }

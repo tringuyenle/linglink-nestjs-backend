@@ -20,6 +20,16 @@ export class UserService {
     );
   }
 
+  async searchByName(user: User, name: string) {
+    const users = await this.userModel
+      .find({
+        name: { $regex: name, $options: 'i' },
+        _id: { $ne: user._id },
+      })
+      .exec();
+    return users;
+  }
+
   async getByUserId(_id: string) {
     const user = await this.userModel.findOne({ _id: _id }).exec();
     if (user) {

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { User } from '../../schemas/user.schema';
 import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { GetUser } from './decorator';
@@ -18,5 +27,14 @@ export class UserController {
   @UseGuards(MyJwtGuard)
   getUserByEmail(@Body() emailUser: { email: string }) {
     return this.userService.getByUserEmail(emailUser.email);
+  }
+
+  @Get('search')
+  @UseGuards(MyJwtGuard)
+  async searchUsersByName(
+    @Req() req,
+    @Query('name') name: string,
+  ): Promise<User[]> {
+    return this.userService.searchByName(req.user, name);
   }
 }

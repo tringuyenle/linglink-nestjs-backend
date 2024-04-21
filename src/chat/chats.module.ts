@@ -16,25 +16,16 @@ import { RequestAddFriendService } from 'src/request-add-friend/request-add-frie
 import { RequestAddFriendSchema } from 'schemas/request-add-friend.schema';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: 'User', schema: UserSchema },
-      { name: 'Message', schema: MessageSchema },
-      { name: 'ChatRoom', schema: ChatRoomSchema },
-      { name: 'ReserPasswordToken', schema: ReserPasswordTokenSchema },
-      { name: 'RequestAddFriend', schema: RequestAddFriendSchema },
-    ]),
-  ],
-  providers: [
-    ChatsService,
-    AuthService,
-    UserService,
-    JwtService,
-    ConfigService,
-    ChatsGateway,
-    MessageService,
-    RequestAddFriendService,
-  ],
-  controllers: [ChatsController],
+    imports: [
+        MongooseModule.forFeature([
+            {name: 'User', schema: UserSchema},
+            {name: 'Message', schema: MessageSchema},
+            {name: 'ChatRoom', schema: ChatRoomSchema},
+            {name: 'ReserPasswordToken', schema: ReserPasswordTokenSchema },
+            {name: 'RequestAddFriend', schema: RequestAddFriendSchema },
+        ]),
+    ],
+    providers: [ChatsService, AuthService, UserService, JwtService, ConfigService, ChatsGateway, MessageService, RequestAddFriendService],
+    controllers: [ChatsController],
 })
 export class ChatsModule {}

@@ -1,13 +1,13 @@
-import { IsNotEmpty } from 'class-validator';
-import { Question } from '../../../schemas/question.schema';
+import { IsNotEmpty } from 'class-validator'
+import { Question } from '../../../schemas/question.schema'
 
 export class CreateTagDTO {
   @IsNotEmpty()
-  tagName: string;
+  tagName: string
 
-  questionsList: Question[];
+  questionsList: Question[]
 
-  createdAt: Date;
+  createdAt: Date
 
-  updatedAt: Date;
+  updatedAt: Date
 }

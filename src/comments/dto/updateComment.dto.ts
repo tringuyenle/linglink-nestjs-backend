@@ -1,10 +1,10 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator'
 
 export class UpdateCommentDTO {
   @IsNotEmpty()
-  content: string;
+  content: string
 
-  createdAt: Date;
+  createdAt: Date
 
-  updatedAt: Date;
+  updatedAt: Date
 }

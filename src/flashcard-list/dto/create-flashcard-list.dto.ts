@@ -1,3 +1,3 @@
 export class CreateFlashcardListDto {
-  readonly name: string;
+  readonly name: string
 }

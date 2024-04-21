@@ -11,11 +11,11 @@ import { ChatRoomSchema } from 'schemas/chatroom.schema';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'Message', schema: MessageSchema },
-      { name: 'ChatRoom', schema: ChatRoomSchema },
+        {name: 'Message', schema: MessageSchema},
+        {name: 'ChatRoom', schema: ChatRoomSchema},
     ]),
-  ],
+],
   controllers: [MessageController],
-  providers: [MessageService, ChatsService, JwtService, ConfigService],
+  providers: [MessageService, ChatsService, JwtService, ConfigService]
 })
 export class MessageModule {}

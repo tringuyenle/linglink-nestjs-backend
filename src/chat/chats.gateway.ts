@@ -149,9 +149,12 @@ export class ChatsGateway
         receiver: request.receiver,
       });
       this.io.to(request.receiver).emit('notification', {
-        content:
-          ' đã chấp nhận lời mời kết bạn. Hãy tải lại trang để nhắn tin!',
+        content: ' đã chấp nhận lời mời kết bạn!',
         sender: client.user.name,
+      });
+      this.io.to(client.user._id.toString()).emit('accept_status', {
+        content: null,
+        sender: null,
       });
     } else if (request.type === 'DENY') {
       const requestDto = { request: request.request };

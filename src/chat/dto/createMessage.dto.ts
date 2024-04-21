@@ -1,10 +1,10 @@
 import { IsString } from 'class-validator';
 
 export class CreateMessageDTO {
-  @IsString()
-  content: string;
+    @IsString()
+    content: string;
 
-  chatRoomId: string;
+    chatRoomId: string;
 
-  imgs_url: [string];
+    imgs_url: [string];
 }
