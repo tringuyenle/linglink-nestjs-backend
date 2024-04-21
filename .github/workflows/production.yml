@@ -1,7 +1,7 @@
-name: Build And Test LingLink System
+name: LingLink System Deployment
 
 on:
-  pull_request:
+  push:
     branches: [ "production" ]
 
 env:
