@@ -1,0 +1,100 @@
+name: Build And Test LingLink System
+
+on:
+  pull_request:
+    branches: [ "production" ]
+
+env:
+  IMAGE_NAME: linglink-system
+
+jobs:
+  build_test:
+    name: Build And Test System
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Use Node.js 20.11.1
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20.11.1
+        cache: 'npm'
+
+    - name: Run install
+      run: npm ci
+
+    - name: Run build
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: build # will build `yarn build` command
+
+    - name: Test the system
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: test # will run `yarn test` command. we can use run lint instead
+
+  push_new_image:
+    name: Build And Push New Image Into DockerHub
+    needs: build_test
+    runs-on: ubuntu-latest
+    environment: 
+      name: linglink
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Get commit ID
+        id: commit_id
+        run: echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }} .
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
+
+      - name: Rename Docker image
+        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Push Image latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+
+  deploy:
+    name: Deploy System To EC2 Instance
+    needs: push_new_image
+    runs-on: ubuntu-latest
+    environment: 
+      name: linglink
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy Into EC2 Instance
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.SSH_HOST}}
+            USER_NAME: ${{secrets.USER_NAME}}
+      
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+
+              # Now we have got the access of EC2 and we will start the deploy .
+              sudo docker stop linglink &&
+              sudo docker remove linglink &&
+              sudo docker rmi tringuyennek/linglink-system &&
+              sudo docker pull tringuyennek/linglink-system:latest &&
+              cd /etc &&
+              sudo docker run --name linglink -p 3000:3000 --env-file app.env -d tringuyennek/linglink-system &&
+              exit
+              '
+            
+          rm private_key
+

@@ -16,9 +16,15 @@ import { UserSchema } from 'schemas/user.schema';
       { name: 'RequestAddFriend', schema: RequestAddFriendSchema },
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'User', schema: UserSchema },
-    ])
+    ]),
   ],
   controllers: [RequestAddFriendController],
-  providers: [RequestAddFriendService, ChatsService, ConfigService, JwtService, UserService]
+  providers: [
+    RequestAddFriendService,
+    ChatsService,
+    ConfigService,
+    JwtService,
+    UserService,
+  ],
 })
 export class RequestAddFriendModule {}

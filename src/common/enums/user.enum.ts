@@ -1,7 +1,7 @@
 enum UserRoles {
   ADMIN = 'admin',
   TEACHER = 'teacher',
-  STUDENT = 'student'
+  STUDENT = 'student',
 }
 
-export { UserRoles }
+export { UserRoles };

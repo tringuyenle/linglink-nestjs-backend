@@ -1,20 +1,20 @@
-import { IsEmail, IsNotEmpty } from 'class-validator'
-import { UserRoles } from '../../common/enums/user.enum'
+import { IsEmail, IsNotEmpty } from 'class-validator';
+import { UserRoles } from '../../common/enums/user.enum';
 
 export class CreateUserByOauthDTO {
   @IsEmail()
   @IsNotEmpty()
-  email: string
+  email: string;
 
-  hashedPassword: string
+  hashedPassword: string;
 
-  name: string
+  name: string;
 
-  avatar: string
+  avatar: string;
 
-  role: UserRoles
+  role: UserRoles;
 
-  createdAt: Date
+  createdAt: Date;
 
-  updatedAt: Date
+  updatedAt: Date;
 }

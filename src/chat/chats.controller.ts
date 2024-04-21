@@ -6,19 +6,17 @@ import { CreateChatRoomDTO } from './dto/createChatRoom.dto';
 //@UseGuards(MyJwtGuard)
 @Controller('chats')
 export class ChatsController {
-    constructor(
-        private readonly chatsService: ChatsService,
-    ) { }
+  constructor(private readonly chatsService: ChatsService) {}
 
-    @Get('create-socket-token')
-    @UseGuards(MyJwtGuard)
-    async createSocketToken(@Req() req) {
-        return await this.chatsService.createSocketToken(req.user)
-    }
+  @Get('create-socket-token')
+  @UseGuards(MyJwtGuard)
+  async createSocketToken(@Req() req) {
+    return await this.chatsService.createSocketToken(req.user);
+  }
 
-    @Get()
-    @UseGuards(MyJwtGuard)
-    async getChatRoom(@Req() req) {
-        return await this.chatsService.getChatRoom(req.user)
-    }
+  @Get()
+  @UseGuards(MyJwtGuard)
+  async getChatRoom(@Req() req) {
+    return await this.chatsService.getChatRoom(req.user);
+  }
 }
