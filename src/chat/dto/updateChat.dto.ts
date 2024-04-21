@@ -1,3 +1,3 @@
 export class UpdateChatDTO {
-  content: string
+  content: string;
 }

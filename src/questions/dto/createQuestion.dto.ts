@@ -2,13 +2,13 @@
 // import { Tag } from "schemas/tag.schema";
 
 export class CreateQuestionDTO {
-  tagsListId: string[]
+  tagsListId: string[];
 
-  content: string
+  content: string;
 
-  answers: string[]
+  answers: string[];
 
-  key: number
+  key: number;
 
-  audio_url: string
+  audio_url: string;
 }

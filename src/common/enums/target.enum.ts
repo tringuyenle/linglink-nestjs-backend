@@ -1,5 +1,5 @@
 enum TargetTypes {
-  TOEIC = 'toeic'
+  TOEIC = 'toeic',
 }
 
-export { TargetTypes }
+export { TargetTypes };

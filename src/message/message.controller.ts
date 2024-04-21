@@ -4,13 +4,11 @@ import { MessageService } from './message.service';
 
 @Controller('message')
 export class MessageController {
-    constructor(
-        private readonly messageService: MessageService,
-    ) { }
+  constructor(private readonly messageService: MessageService) {}
 
-    @Get('')
-    @UseGuards(MyJwtGuard)
-    getMessage(@Req() req, @Query('chatRoomId') chatRoomId: string) {
-        return this.messageService.getMessage(req.user, chatRoomId)
-    }
+  @Get('')
+  @UseGuards(MyJwtGuard)
+  getMessage(@Req() req, @Query('chatRoomId') chatRoomId: string) {
+    return this.messageService.getMessage(req.user, chatRoomId);
+  }
 }
