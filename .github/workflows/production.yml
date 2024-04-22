@@ -37,6 +37,7 @@ jobs:
 
   push_new_image:
     name: Build And Push New Image Into DockerHub
+    needs: build_test
     runs-on: ubuntu-latest
     environment: 
       name: linglink

@@ -19,7 +19,7 @@ export class SocketIOAdapter extends IoAdapter {
 
     const cors = {
       origin: [
-        `${process.env.NEXT_PUBLIC_BASE_CLIENT_URL}:${clientPort}`,
+        `http://localhost:${clientPort}`,
         new RegExp(`/^http:\/\/192\.168\.1\.([1-9]|[1-9]\d):${clientPort}$/`),
       ],
     };
