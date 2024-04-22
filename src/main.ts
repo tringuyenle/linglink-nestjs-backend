@@ -33,7 +33,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      `http://localhost:${clientPort}`,
+      `${process.env.NEXT_PUBLIC_BASE_CLIENT_URL}:${clientPort}`,
       new RegExp(`/^http:\/\/192\.168\.1\.([1-9]|[1-9]\d):${clientPort}$/`),
     ],
   });

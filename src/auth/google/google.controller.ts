@@ -15,7 +15,7 @@ export class GoogleController {
   // api/auth/google/redirect
   @Get('callback')
   @UseGuards(GoogleAuthGuard)
-  @Redirect('http://localhost:3005/', 301)
+  @Redirect(`${process.env.NEXT_PUBLIC_BASE_CLIENT_URL}`, 301)
   async handleCallback(@Req() req, @Res({ passthrough: true }) res) {
     // user data sẽ được lưu tự động vào database từ valida trong stategy
 
@@ -24,7 +24,7 @@ export class GoogleController {
     });
     return {
       url:
-        'http://localhost:3005/handle-extend-login/?accessToken=' +
+        `${process.env.NEXT_PUBLIC_BASE_CLIENT_URL}/handle-extend-login/?accessToken=` +
         token.accessToken +
         '&refreshToken' +
         token.refreshToken,
