@@ -30,7 +30,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = parseInt(configService.get('PORT'));
   const clientPort = parseInt(configService.get('CLIENT_PORT'));
-  const clientUrl = parseInt(configService.get('NEXT_PUBLIC_BASE_CLIENT_URL'));
+  const clientUrl = configService.get('NEXT_PUBLIC_BASE_CLIENT_URL');
 
   app.enableCors({
     origin: [
