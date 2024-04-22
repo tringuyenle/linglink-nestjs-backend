@@ -1,7 +1,7 @@
-name: Build And Test LingLink System
+name: LingLink System Deployment
 
 on:
-  pull_request:
+  push:
     branches: [ "production" ]
 
 env:
@@ -13,31 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Use Node.js 20.11.1
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.11.1
-        cache: 'npm'
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Use Node.js 20.11.1
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.11.1
+          cache: 'npm'
 
-    - name: Run install
-      run: npm ci
+      - name: Run install
+        run: npm ci
 
-    - name: Run build
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: build # will build `yarn build` command
+      - name: Run build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build # will build `yarn build` command
 
-    - name: Test the system
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: test # will run `yarn test` command. we can use run lint instead
+      - name: Test the system
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test # will run `yarn test` command. we can use run lint instead
 
   push_new_image:
     name: Build And Push New Image Into DockerHub
-    needs: build_test
     runs-on: ubuntu-latest
     environment: 
       name: linglink
