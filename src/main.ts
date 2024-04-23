@@ -31,10 +31,11 @@ async function bootstrap() {
   const port = parseInt(configService.get('PORT'));
   const clientPort = parseInt(configService.get('CLIENT_PORT'));
   const clientUrl = configService.get('NEXT_PUBLIC_BASE_CLIENT_URL');
-
+  console.log(`${clientUrl}:${clientPort}`)
+  
   app.enableCors({
     origin: [
-      `http://ec2-47-129-30-6.ap-southeast-1.compute.amazonaws.com`,
+      `http://ec2-47-129-30-6.ap-southeast-1.compute.amazonaws.com:80`,
       new RegExp(`/^http:\/\/192\.168\.1\.([1-9]|[1-9]\d):${clientPort}$/`),
     ],
   });
