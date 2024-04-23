@@ -15,12 +15,11 @@ export class SocketIOAdapter extends IoAdapter {
   }
 
   createIOServer(port: number, options?: ServerOptions) {
-    const clientPort = parseInt(this.configService.get('CLIENT_PORT'));
+    const clientUrl = this.configService.get('NEXT_PUBLIC_BASE_CLIENT_URL');
 
     const cors = {
       origin: [
-        `http://localhost:${clientPort}`,
-        new RegExp(`/^http:\/\/192\.168\.1\.([1-9]|[1-9]\d):${clientPort}$/`),
+        `${clientUrl}`,
       ],
     };
 
