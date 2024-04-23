@@ -20,6 +20,7 @@ export class SocketIOAdapter extends IoAdapter {
     const cors = {
       origin: [
         `${clientUrl}`,
+        'http://localhost:3005'
       ],
     };
 
