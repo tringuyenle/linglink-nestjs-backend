@@ -30,11 +30,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = parseInt(configService.get('PORT'));
   const clientUrl = configService.get('NEXT_PUBLIC_BASE_CLIENT_URL');
-  console.log(`${clientUrl}`)
 
   app.enableCors({
     origin: [
       `${clientUrl}`,
+      'http://localhost:3005'
     ],
   });
   app.useWebSocketAdapter(new SocketIOAdapter(app, configService));
