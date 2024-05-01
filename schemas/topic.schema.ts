@@ -4,13 +4,13 @@ import { Post } from './post.schema';
 
 @Schema({ timestamps: true })
 export class Topic {
-    _id: ObjectId;
+  _id: ObjectId;
 
-    @Prop()
-    topicName: string;
+  @Prop()
+  topicName: string;
 
-    @Prop({ type: [Types.ObjectId], ref: 'Post' })
-    postsList: Post[];
-};
+  @Prop({ type: [Types.ObjectId], ref: 'Post' })
+  postsList: Post[];
+}
 
 export const TopicSchema = SchemaFactory.createForClass(Topic);

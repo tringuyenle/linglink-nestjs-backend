@@ -5,36 +5,35 @@ import { IsEnum } from 'class-validator';
 import { ObjectId } from 'mongoose';
 
 export class Target {
-    targetType: TargetTypes;
+  targetType: TargetTypes;
 
-    targetScore: number;
+  targetScore: number;
 
-    currentScore: { type: number, default: 0 };
+  currentScore: { type: number; default: 0 };
 
-    targetDate: Date;
-};
+  targetDate: Date;
+}
 
 @Schema({ timestamps: true })
 export class User {
-    _id: ObjectId;
+  _id: ObjectId;
 
-    @Prop({unique: true})
-    email: string;
+  @Prop({ unique: true })
+  email: string;
 
-    @Prop()
-    hashedPassword: string;
+  @Prop()
+  hashedPassword: string;
 
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 
-    @Prop({ type: String, enum: UserRoles, default: UserRoles.STUDENT })
-    @IsEnum(UserRoles)
-    role: UserRoles;
+  @Prop({ type: String, enum: UserRoles, default: UserRoles.STUDENT })
+  @IsEnum(UserRoles)
+  role: UserRoles;
 
-    @Prop()
-    avatar: string;
-    target: Target;
-
-};
+  @Prop()
+  avatar: string;
+  target: Target;
+}
 
 export const UserSchema = SchemaFactory.createForClass(User);

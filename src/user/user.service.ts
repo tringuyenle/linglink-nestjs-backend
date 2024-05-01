@@ -4,7 +4,8 @@ import { Model } from 'mongoose';
 import { User } from '../../schemas/user.schema';
 import { CreateUserDTO } from './dto/createUser.dto';
 import { CreateUserByOauthDTO } from './dto/createUserByOauth.dto';
-
+import * as argon from 'argon2';
+import { UserDTO } from './dto/userDto.dto';
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
@@ -20,20 +21,36 @@ export class UserService {
     );
   }
 
-  async searchByName(user: User, name: string) {
+  async searchByName(user: User, name: string): Promise<User[]> {
     const users = await this.userModel
       .find({
         name: { $regex: name, $options: 'i' },
         _id: { $ne: user._id },
       })
       .exec();
+
     return users;
   }
 
-  async getByUserId(_id: string) {
+  async getByUserId(_id: string): Promise<User> {
     const user = await this.userModel.findOne({ _id: _id }).exec();
     if (user) {
       return user;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
+  async getByUserIdV2(_id: string): Promise<UserDTO> {
+    const user = await this.userModel.findOne({ _id: _id }).exec();
+    if (user) {
+      const sanitizedUser: UserDTO = {
+        avatar: user.avatar,
+        name: user.name,
+      };
+      return sanitizedUser;
     }
     throw new HttpException(
       'User with this id does not exist',
@@ -45,6 +62,28 @@ export class UserService {
     const newUser = await this.userModel.create(userData);
     await newUser.save();
     return newUser;
+  }
+
+  async changerUserPassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string,
+  ) {
+    const user = await this.userModel.findOne({ _id: userId }).exec();
+    const isPasswordMatching = await argon.verify(
+      user.hashedPassword,
+      oldPassword,
+    );
+    if (!isPasswordMatching) {
+      throw new HttpException('Wrong password', HttpStatus.BAD_REQUEST);
+    }
+    const newHashedPassword = await argon.hash(newPassword);
+    const updatedUser = await this.userModel.updateOne(
+      { _id: userId },
+      { $set: { hashedPassword: newHashedPassword } },
+      { new: true },
+    );
+    return updatedUser;
   }
 
   async updatePasswordForUser(userId: string, hashPassword: string) {

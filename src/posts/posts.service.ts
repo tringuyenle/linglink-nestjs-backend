@@ -13,7 +13,6 @@ import { UpdatePostDTO } from './dto/updatePost.dto';
 import { TopicsService } from '../topics/topics.service';
 import { QuestionsService } from '../questions/questions.service';
 import { ReactionsService } from '../reactions/reactions.service';
-import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class PostsService {
@@ -132,17 +131,42 @@ export class PostsService {
 
   async updatePostById(user: User, postId: string, postsData: UpdatePostDTO) {
     const currentPost = await this.getPostById(postId);
+    let newQuestion: any = '';
+    if (!currentPost.question && postsData.question) {
+      newQuestion = await this.questionsService.createQuestion(
+        postsData.question,
+      );
+    } else if (postsData.question) {
+      await this.questionsService.updateQuestionById(
+        postsData.question._id.toString(),
+        {
+          content: postsData.question.content,
+          answer: postsData.question.answers,
+          key: postsData.question.key,
+          audio_url: postsData.question.audio_url,
+        },
+      );
+    }
+    const newData: any = { ...postsData };
+
+    if (newQuestion !== '') {
+      newData.question = newQuestion;
+    } else {
+      if (!currentPost.question) newData.question = null;
+    }
+
     if (user.email === currentPost.author.email) {
       return await this.postModel.findOneAndUpdate(
         { _id: postId } as FilterQuery<Post>,
-        postsData,
+        newData,
         { new: true },
       );
+    } else {
+      throw new HttpException(
+        'The post has been updated by the author',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
-    return new HttpException(
-      'The post has been updated by the author',
-      HttpStatus.UNAUTHORIZED,
-    );
   }
 
   async removePostById(user: User, postId: string) {
@@ -192,6 +216,8 @@ export class PostsService {
     lastPostId: string,
     userId: string,
     pageSize: number,
+    topic: string,
+    author: string,
   ): Promise<
     {
       data: Post;
@@ -199,13 +225,21 @@ export class PostsService {
       dislike: boolean;
       numlikes: number;
       numdislikes: number;
+      author: string;
     }[]
   > {
-    const query = {};
+    const query: any = {};
+
+    if (author) {
+      query.author = new Types.ObjectId(author);
+    }
 
     if (lastPostId) {
-      // Nếu có lastPostId, thêm điều kiện lọc để chỉ lấy bài viết có _id nhỏ hơn lastPostId
-      query['_id'] = { $lt: lastPostId };
+      query._id = { $lt: lastPostId };
+    }
+
+    if (topic) {
+      query.topic = new Types.ObjectId(topic);
     }
 
     const posts = await this.postModel
@@ -216,9 +250,8 @@ export class PostsService {
       .populate('question')
       .populate('topic')
       .exec();
-
     // Sử dụng hàm map để chuyển đổi cấu trúc của mỗi phần tử trong mảng và cập nhật trạng thái reaction
-    const transformedPosts = await Promise.all(
+    const transformedPosts: any = await Promise.all(
       posts.map(async (post) => {
         const listReactions = await this.reactionsService.getReactionByPostId(
           post._id.toString(),
@@ -237,6 +270,7 @@ export class PostsService {
           dislike: dislike,
           numlikes: listReactions.likeUsers.length,
           numdislikes: listReactions.dislikeUsers.length,
+          author: post.author, // Có thể bạn cần chỉnh sửa ở đây nếu post.author không chứa thông tin về tên tác giả
         };
       }),
     );
@@ -259,7 +293,6 @@ export class PostsService {
       return updatedPost;
     } catch (error) {
       // Handle errors
-      console.error('Error updating post:', error);
       throw error;
     }
   }
