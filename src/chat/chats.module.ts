@@ -14,6 +14,8 @@ import { ChatRoomSchema } from 'schemas/chatroom.schema';
 import { MessageService } from 'src/message/message.service';
 import { RequestAddFriendService } from 'src/request-add-friend/request-add-friend.service';
 import { RequestAddFriendSchema } from 'schemas/request-add-friend.schema';
+import { FriendService } from 'src/friend/friend.service';
+import { Friend, FriendSchema } from 'schemas/friend.schema';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { RequestAddFriendSchema } from 'schemas/request-add-friend.schema';
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'ReserPasswordToken', schema: ReserPasswordTokenSchema },
       { name: 'RequestAddFriend', schema: RequestAddFriendSchema },
+      { name: Friend.name, schema: FriendSchema },
     ]),
   ],
   providers: [
@@ -34,6 +37,7 @@ import { RequestAddFriendSchema } from 'schemas/request-add-friend.schema';
     ChatsGateway,
     MessageService,
     RequestAddFriendService,
+    FriendService,
   ],
   controllers: [ChatsController],
 })

@@ -26,18 +26,6 @@ export class Post {
   @Prop({ default: 0 })
   numComments: number;
 
-  // @Prop({ default: 0 })
-  // upVotes: number;
-
-  // @Prop({ type: Types.ObjectId, ref: 'User' })
-  // upVotesList: User[];
-
-  // @Prop({ default: 0 })
-  // downVotes: number;
-
-  // @Prop({ type: Types.ObjectId, ref: 'User' })
-  // downVotesList: User[];
-
   @Prop({ type: Types.ObjectId, ref: 'User' })
   author: User;
 }
