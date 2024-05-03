@@ -9,6 +9,11 @@ import { ConfigService } from '@nestjs/config';
 import { ChatRoomSchema } from 'schemas/chatroom.schema';
 import { UserService } from 'src/user/user.service';
 import { UserSchema } from 'schemas/user.schema';
+import { FriendService } from 'src/friend/friend.service';
+import { 
+  Friend, 
+  FriendSchema 
+} from 'schemas/friend.schema';
 
 @Module({
   imports: [
@@ -16,6 +21,7 @@ import { UserSchema } from 'schemas/user.schema';
       { name: 'RequestAddFriend', schema: RequestAddFriendSchema },
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'User', schema: UserSchema },
+      { name: Friend.name, schema: FriendSchema },
     ]),
   ],
   controllers: [RequestAddFriendController],
@@ -25,6 +31,7 @@ import { UserSchema } from 'schemas/user.schema';
     ConfigService,
     JwtService,
     UserService,
+    FriendService,
   ],
 })
 export class RequestAddFriendModule {}
