@@ -2,7 +2,7 @@
 // import { Tag } from "schemas/tag.schema";
 
 export class CreateQuestionDTO {
-  tagsListId: string[];
+  tagsListId?: string[];
 
   content: string;
 

@@ -10,19 +10,19 @@ export class UpdatePostDTO {
 
   question: Question;
 
-  img_url: string;
+  imgs_url: string;
 
-  upVotes: number;
+  upVotes?: number;
 
-  upVotesList: User[];
+  upVotesList?: User[];
 
-  downVotes: number;
+  downVotes?: number;
 
-  downVotesList: User[];
+  downVotesList?: User[];
 
-  author: User;
+  author?: User;
 
-  createdAt: Date;
+  createdAt?: Date;
 
-  updatedAt: Date;
+  updatedAt?: Date;
 }
