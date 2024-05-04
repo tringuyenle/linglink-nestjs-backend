@@ -1,38 +1,41 @@
 import {
-  Body,
   Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
   UseGuards,
   Req,
+  Query,
+  Get,
+  Put,
+  Body,
 } from '@nestjs/common';
 import { ProgressService } from './progress.service';
 import { MyJwtGuard } from 'src/auth/guard/myjwt.guard';
-import { UserService } from 'src/user/user.service';
+import { UpdateQuestionIntoProgressDto } from './dto/update-question-into-progress.dto';
 
-@Controller('friends')
+@Controller('progresses')
 export class ProgressController {
   constructor(
     private readonly progressService: ProgressService,
-    private readonly userService: UserService
   ) {}
 
-  // @UseGuards(MyJwtGuard)
-  // @Post('')
-  // async addProgress(
-  //   @Req() req: any,
-  //   @Body() friend: { friendId: string },
-  // ) {
-  //   let newProgress = await this.userService.getByUserId(friend.friendId);
-  //   return this.friendService.addProgress(req.user, newProgress);
-  // }
+  @UseGuards(MyJwtGuard)
+  @Get()
+  async getProgressByUserId(
+    @Query('userId') userId: string,
+    @Query('date') date?: Date,
+  ) {
+    return this.progressService.getProgressByUserId(userId, date);
+  }
 
-  // @UseGuards(MyJwtGuard)
-  // @Get('/:userId')
-  // async getEvents(@Param('userId') userId: string) {
-  //   return this.friendService.getListProgresss(userId);
-  // }
+  @UseGuards(MyJwtGuard)
+  @Put()
+  async updateQuestionInProgress(
+    @Req() req,
+    @Body() updateQuestionIntoProgressDto: UpdateQuestionIntoProgressDto,
+  ) {
+    return this.progressService
+    .updateQuestionInProgress(
+      req.user, updateQuestionIntoProgressDto.questionId, 
+      updateQuestionIntoProgressDto.isCorrect
+    );
+  }
 }

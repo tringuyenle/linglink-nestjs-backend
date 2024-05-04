@@ -14,10 +14,10 @@ export class Progress extends Document {
   date: Date;
 
   @Prop({ type: [Types.ObjectId], ref: 'Question' })
-  wrongAnswerQuestions: Question[];
+  wrongAnswerQuestions: Types.ObjectId[];
 
   @Prop({ type: [Types.ObjectId], ref: 'Question' })
-  totalQuestions: Question[];
+  totalQuestions: Types.ObjectId[];
 }
 
 export const ProgressSchema = SchemaFactory.createForClass(Progress);
