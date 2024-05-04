@@ -8,7 +8,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { ProgressService } from './progress.service';
-import { MyJwtGuard } from 'src/auth/guard/myjwt.guard';
+import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { UpdateQuestionIntoProgressDto } from './dto/update-question-into-progress.dto';
 
 @Controller('progresses')

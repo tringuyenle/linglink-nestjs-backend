@@ -4,10 +4,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { 
   Progress, 
   ProgressDocument 
-} from 'schemas/progress.schema';
+} from '../../schemas/progress.schema';
 import { User } from 'schemas/user.schema';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Question } from 'schemas/question.schema';
 
 @Injectable()
 export class ProgressService {
