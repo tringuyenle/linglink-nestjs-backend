@@ -1,12 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { RequestAddFriend } from 'schemas/request-add-friend.schema';
 import { ChatsService } from 'src/chat/chats.service';
 import { User } from 'schemas/user.schema';
 import { RequestDto } from './dto/request.dto';
 import { NewRequestDto } from './dto/newRequest.dto';
 import { UserService } from 'src/user/user.service';
+import { FriendService } from 'src/friend/friend.service';
 
 @Injectable()
 export class RequestAddFriendService {
@@ -15,6 +16,7 @@ export class RequestAddFriendService {
     private readonly requestAddFriendModel: Model<RequestAddFriend>,
     private readonly chatsService: ChatsService,
     private readonly userService: UserService,
+    private readonly friendService: FriendService,
   ) {}
 
   async createRequest(user: User, newRequestDto: NewRequestDto) {
@@ -81,6 +83,10 @@ export class RequestAddFriendService {
       const newChatRoom = await this.chatsService.createChatRoom({
         request: request,
       });
+
+      await this.friendService.addFriend(request.sender, request.receiver);
+      await this.friendService.addFriend(request.receiver, request.sender);
+
       return newChatRoom;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);

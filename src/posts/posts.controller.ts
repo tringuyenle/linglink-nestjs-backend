@@ -83,8 +83,16 @@ export class PostsController {
     @Req() req,
     @Query('lastPostId') lastPostId: string,
     @Query('pageSize') pageSize: number = 10,
+    @Query('topic') topic: string,
+    @Query('author') author: string,
   ) {
     const userId = req.user._id.toString();
-    return this.postsService.getAllPostsByPagev2(lastPostId, userId, pageSize);
+    return this.postsService.getAllPostsByPagev2(
+      lastPostId,
+      userId,
+      pageSize,
+      topic,
+      author,
+    );
   }
 }

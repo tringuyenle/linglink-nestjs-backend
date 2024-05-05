@@ -12,6 +12,7 @@ import { User } from '../../schemas/user.schema';
 import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { GetUser } from './decorator';
 import { UserService } from './user.service';
+import { UserDTO } from './dto/userDto.dto';
 
 @Controller('user')
 export class UserController {
@@ -36,5 +37,33 @@ export class UserController {
     @Query('name') name: string,
   ): Promise<User[]> {
     return this.userService.searchByName(req.user, name);
+  }
+
+  @Get(':id')
+  @UseGuards(MyJwtGuard)
+  async getById(@Param('id') id: string): Promise<UserDTO> {
+    return this.userService.getByUserIdV2(id);
+  }
+
+  @Post('changepassword')
+  @UseGuards(MyJwtGuard)
+  async changeUserPassword(
+    @Req() req,
+    @Body() user: { userId: string; oldPassword: string; newPassword: string },
+  ) {
+    return this.userService.changerUserPassword(
+      req.user._id,
+      user.oldPassword,
+      user.newPassword,
+    );
+  }
+
+  @Post('target')
+  @UseGuards(MyJwtGuard)
+  async setTarget(
+    @Req() req,
+    @Body() target: { description: string; startDate: Date; targetDate: Date },
+  ) {
+    return this.userService.setTarget(req.user._id, target);
   }
 }

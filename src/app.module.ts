@@ -17,11 +17,15 @@ import { ChatsModule } from './chat/chats.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { RequestAddFriendModule } from './request-add-friend/request-add-friend.module';
 import { MessageModule } from './message/message.module';
+import { FriendModule } from './friend/friend.module';
+import { ProgressModule } from './progress/progress.module';
+import { ScheduleModule } from '@nestjs/schedule';
 require('dotenv').config();
 
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.DB_URL),
+    ScheduleModule.forRoot(),
     AuthModule,
     UserModule,
     PostsModule,
@@ -37,6 +41,8 @@ require('dotenv').config();
     RequestAddFriendModule,
     CalendarModule,
     MessageModule,
+    FriendModule,
+    ProgressModule,
   ],
   controllers: [AppController],
   providers: [AppService],

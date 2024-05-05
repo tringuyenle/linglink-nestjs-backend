@@ -1,5 +1,5 @@
 export class UpdateQuestionDTO {
-  tagsListId: string[];
+  tagsListId?: string[];
 
   content: string;
 
@@ -7,7 +7,7 @@ export class UpdateQuestionDTO {
 
   key: number;
 
-  img_url: string;
+  img_url?: string;
 
   audio_url: string;
 }
