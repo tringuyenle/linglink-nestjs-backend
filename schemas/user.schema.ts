@@ -1,15 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { UserRoles } from '../src/common/enums/user.enum';
-import { TargetTypes } from '../src/common/enums/target.enum';
 import { IsEnum } from 'class-validator';
 import { ObjectId } from 'mongoose';
 
 export class Target {
-  targetType: TargetTypes;
+  description: string;
 
-  targetScore: number;
-
-  currentScore: { type: number; default: 0 };
+  startDate: Date;
 
   targetDate: Date;
 }
@@ -33,6 +30,8 @@ export class User {
 
   @Prop()
   avatar: string;
+
+  @Prop()
   target: Target;
 }
 

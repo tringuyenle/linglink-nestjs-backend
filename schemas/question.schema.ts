@@ -6,28 +6,32 @@ import { Tag } from './tag.schema';
 
 @Schema({ timestamps: true })
 export class Question {
-    // @Prop()
-    // questionName: string;
-    _id: ObjectId;
+  // @Prop()
+  // questionName: string;
+  _id: ObjectId;
 
-    @Prop({ type: String, enum: QuestionTypes, default: QuestionTypes.MULTIPLE_CHOICE })
-    @IsEnum(QuestionTypes)
-    type: QuestionTypes;
+  @Prop({
+    type: String,
+    enum: QuestionTypes,
+    default: QuestionTypes.MULTIPLE_CHOICE,
+  })
+  @IsEnum(QuestionTypes)
+  type: QuestionTypes;
 
-    @Prop({ type: [Types.ObjectId], ref: 'Tag' })
-    tagsList: Tag[];
+  @Prop({ type: [Types.ObjectId], ref: 'Tag' })
+  tagsList: Tag[];
 
-    @Prop()
-    content: string;
+  @Prop()
+  content: string;
 
-    @Prop()
-    answers: string[];
+  @Prop()
+  answers: string[];
 
-    @Prop()
-    key: number;
+  @Prop()
+  key: number;
 
-    @Prop()
-    audio_url: string;
-};
+  @Prop()
+  audio_url: string;
+}
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

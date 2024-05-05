@@ -57,4 +57,13 @@ export class UserController {
       user.newPassword,
     );
   }
+
+  @Post('target')
+  @UseGuards(MyJwtGuard)
+  async setTarget(
+    @Req() req,
+    @Body() target: { description: string; startDate: Date; targetDate: Date },
+  ) {
+    return this.userService.setTarget(req.user._id, target);
+  }
 }
