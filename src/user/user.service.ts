@@ -27,6 +27,7 @@ export class UserService {
         name: { $regex: name, $options: 'i' },
         _id: { $ne: user._id },
       })
+      .limit(50)
       .exec();
 
     return users;
@@ -49,6 +50,7 @@ export class UserService {
       const sanitizedUser: UserDTO = {
         avatar: user.avatar,
         name: user.name,
+        target: user.target,
       };
       return sanitizedUser;
     }
@@ -102,6 +104,23 @@ export class UserService {
       const newUser = await this.userModel.create(userData);
       await newUser.save();
       return newUser;
+    }
+  }
+
+  async setTarget(
+    userId: string,
+    target: { description: string; startDate: Date; targetDate: Date },
+  ) {
+    try {
+      const user = await this.userModel.findById(userId);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      user.target = target;
+      const updatedUser = await user.save();
+      return updatedUser;
+    } catch (error) {
+      throw error;
     }
   }
 }

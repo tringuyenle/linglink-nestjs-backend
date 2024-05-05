@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { 
-  Friend, 
-  FriendDocument 
-} from 'schemas/friend.schema';
+import { Friend, FriendDocument } from 'schemas/friend.schema';
 import { User } from 'schemas/user.schema';
 
 @Injectable()
@@ -13,14 +10,9 @@ export class FriendService {
     @InjectModel(Friend.name) private friendModel: Model<FriendDocument>,
   ) {}
 
-  async addFriend(
-    user: any,
-    friend: any,
-  ): Promise<Friend> {
+  async addFriend(user: any, friend: any): Promise<Friend> {
     try {
-      let friends = await this.friendModel
-        .findOne({ user: user._id })
-        .exec();
+      let friends = await this.friendModel.findOne({ user: user._id }).exec();
       if (!friends) {
         friends = new this.friendModel({ user: user._id, friends: [] });
       }

@@ -2,10 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FriendController } from './friend.controller';
 import { FriendService } from './friend.service';
-import { 
-  Friend, 
-  FriendSchema 
-} from 'schemas/friend.schema';
+import { Friend, FriendSchema } from 'schemas/friend.schema';
 import { UserService } from 'src/user/user.service';
 import { UserSchema } from 'schemas/user.schema';
 
