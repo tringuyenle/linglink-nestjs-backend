@@ -17,16 +17,13 @@ import { UserService } from 'src/user/user.service';
 export class FriendController {
   constructor(
     private readonly friendService: FriendService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   @UseGuards(MyJwtGuard)
   @Post('')
-  async addFriend(
-    @Req() req: any,
-    @Body() friend: { friendId: string },
-  ) {
-    let newFriend = await this.userService.getByUserId(friend.friendId);
+  async addFriend(@Req() req: any, @Body() friend: { friendId: string }) {
+    const newFriend = await this.userService.getByUserId(friend.friendId);
     return this.friendService.addFriend(req.user, newFriend);
   }
 

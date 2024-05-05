@@ -1,4 +1,4 @@
-import { UserRoles } from "src/common/enums/user.enum";
+import { UserRoles } from 'src/common/enums/user.enum';
 
 export class UserDTO {
   email?: string;
@@ -14,4 +14,10 @@ export class UserDTO {
   createdAt?: Date;
 
   updatedAt?: Date;
+
+  target?: {
+    description: string;
+    startDate: Date;
+    targetDate: Date;
+  };
 }
