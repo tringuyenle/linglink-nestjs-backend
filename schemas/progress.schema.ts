@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from './user.schema';
-import { Question } from './question.schema';
 
 export type ProgressDocument = Progress & Document;
 
@@ -18,6 +17,9 @@ export class Progress extends Document {
 
   @Prop({ type: [Types.ObjectId], ref: 'Question' })
   totalQuestions: Types.ObjectId[];
+
+  @Prop({ type: [Types.ObjectId], ref: 'Flashcard' })
+  flashcards: Types.ObjectId[];
 }
 
 export const ProgressSchema = SchemaFactory.createForClass(Progress);

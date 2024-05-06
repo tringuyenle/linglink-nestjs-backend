@@ -1,5 +1,4 @@
 export class UpdateQuestionIntoProgressDto {
-    readonly questionId: string;
-    readonly isCorrect: boolean;
-  }
-  
+  readonly questionId: string;
+  readonly isCorrect: boolean;
+}
