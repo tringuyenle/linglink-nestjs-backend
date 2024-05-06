@@ -18,7 +18,7 @@ export class ProgressService {
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async createDailyProgressForAllUsers() {
     const users = await this.userModel.find().exec();
-    let date = new Date();
+    const date = new Date();
     for (const user of users) {
       const newProgress = new this.progressModel({
         user: user._id,
@@ -31,26 +31,29 @@ export class ProgressService {
   }
 
   async getProgressByUserId(
-    userId: string, 
-    date?: Date
+    userId: string,
+    date?: Date,
   ): Promise<ProgressDocument[]> {
-    let query = this.progressModel
-      .find({ user: new Types.ObjectId(userId) });
+    let query = this.progressModel.find({ user: new Types.ObjectId(userId) });
 
     if (date !== undefined) {
       const startOfDay = new Date(date);
       startOfDay.setHours(0, 0, 0, 0);
-  
+
       const endOfDay = new Date(date);
       endOfDay.setHours(23, 59, 59, 999);
-  
-      query = query.where('date').gte(startOfDay.getTime()).lt(endOfDay.getTime());
-    }
 
-    return query
+      query = query
+        .where('date')
+        .gte(startOfDay.getTime())
+        .lt(endOfDay.getTime());
+    }
+    const result: any = await query
       .populate('wrongAnswerQuestions')
+      .populate('flashcards')
       .populate('totalQuestions')
       .exec();
+    return result;
   }
 
   async updateQuestionInProgress(
@@ -59,13 +62,23 @@ export class ProgressService {
     isCorrect: boolean,
   ): Promise<HttpStatus> {
     try {
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999);
       const progress = await this.progressModel
-        .findOne({ user: user._id })
+        .findOne({
+          user: user._id,
+          date: {
+            $gte: startOfDay,
+            $lt: endOfDay,
+          },
+        })
         .exec();
       if (!progress) {
         throw new Error('Progress not found');
       }
-      let question = new Types.ObjectId(questionId);
+      const question = new Types.ObjectId(questionId);
       if (progress.totalQuestions.includes(question)) {
         return null;
       }
@@ -74,9 +87,53 @@ export class ProgressService {
       }
       progress.totalQuestions.push(question);
       await progress.save();
-      return HttpStatus.OK
+      return HttpStatus.OK;
     } catch (error) {
-      throw new HttpException('Failed to update progress', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Failed to update progress',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async updateFlashcard(
+    user: any,
+    flashcardId: string,
+    isRemember: boolean,
+  ): Promise<HttpStatus> {
+    try {
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date();
+      endOfDay.setHours(23, 59, 59, 999);
+      const progress = await this.progressModel
+        .findOne({
+          user: user._id,
+          date: {
+            $gte: startOfDay,
+            $lt: endOfDay,
+          },
+        })
+        .exec();
+      if (!progress) {
+        throw new Error('Progress not found');
+      }
+      const flashcard = new Types.ObjectId(flashcardId);
+      if (isRemember) {
+        progress.flashcards.push(flashcard);
+      } else {
+        const index = progress.flashcards.indexOf(flashcard);
+        if (index !== -1) {
+          progress.flashcards.splice(index, 1);
+        }
+      }
+      await progress.save();
+      return HttpStatus.OK;
+    } catch (error) {
+      throw new HttpException(
+        'Failed to update progress',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
