@@ -64,7 +64,6 @@ export class CourseService {
 
   async create(courseProps: CourseProps): Promise<Course> {
     const createdCourse = new this.courseModel(courseProps);
-    console.log(courseProps);
     return createdCourse.save();
   }
 
