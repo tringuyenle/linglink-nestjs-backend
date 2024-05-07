@@ -13,7 +13,7 @@ import {
 import { CreateTopicDTO } from './dto/createTopic.dto';
 import { UpdateTopicDTO } from './dto/updateTopic.dto';
 import { TopicsService } from './topics.service';
-import { MyJwtGuard } from 'src/auth/guard/myjwt.guard';
+import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 
 @Controller('topics')
 export class TopicsController {

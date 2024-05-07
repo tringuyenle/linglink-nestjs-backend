@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Flashcard } from '../../schemas/flashcard.schema';
 import { CreateFlashcardDto } from './dto/create-flashcard.dto';
 import { FlashcardListService } from '../flashcard-list/flashcard-list.service';
-import { ChangeFlashcardStateDto } from 'src/flashcard-list/dto/change-flashcard-state.dto';
+import { ChangeFlashcardStateDto } from '../flashcard-list/dto/change-flashcard-state.dto';
 
 @Injectable()
 export class FlashcardService {

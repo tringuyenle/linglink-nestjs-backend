@@ -1,5 +1,4 @@
-import { Body, Controller, Post, Version } from '@nestjs/common';
-import { IsEmail } from 'class-validator';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   RegisterDTO,

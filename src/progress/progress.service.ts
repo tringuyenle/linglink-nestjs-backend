@@ -1,7 +1,10 @@
 import { Model, Types } from 'mongoose';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Progress, ProgressDocument } from 'schemas/progress.schema';
+import { 
+  Progress, 
+  ProgressDocument 
+} from '../../schemas/progress.schema';
 import { User } from 'schemas/user.schema';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
@@ -22,6 +25,7 @@ export class ProgressService {
         date: date,
         wrongAnswerQuestions: [],
         totalQuestions: [],
+        flashcards: [],
       });
       await newProgress.save();
     }

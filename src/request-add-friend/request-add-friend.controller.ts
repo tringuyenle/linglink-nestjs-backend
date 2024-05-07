@@ -1,5 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { MyJwtGuard } from 'src/auth/guard/myjwt.guard';
+import { 
+  Body, 
+  Controller, 
+  Get, 
+  Post, 
+  Req, 
+  UseGuards 
+} from '@nestjs/common';
+import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { NewRequestDto } from './dto/newRequest.dto';
 import { RequestAddFriendService } from './request-add-friend.service';
 import { RequestDto } from './dto/request.dto';

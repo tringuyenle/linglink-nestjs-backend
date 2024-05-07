@@ -11,7 +11,7 @@ import {
 import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { CreateFlashcardDto } from './dto/create-flashcard.dto';
 import { FlashcardService } from './flashcards.service';
-import { ChangeFlashcardStateDto } from 'src/flashcard-list/dto/change-flashcard-state.dto';
+import { ChangeFlashcardStateDto } from '../flashcard-list/dto/change-flashcard-state.dto';
 
 @Controller('flashcards')
 export class FlashcardController {

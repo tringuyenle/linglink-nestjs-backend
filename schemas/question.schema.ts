@@ -8,7 +8,7 @@ import { Tag } from './tag.schema';
 export class Question {
   // @Prop()
   // questionName: string;
-  _id: ObjectId;
+  _id: Types.ObjectId;
 
   @Prop({
     type: String,

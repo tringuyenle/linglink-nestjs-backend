@@ -10,7 +10,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { CalendarService } from './calendar.service';
-import { MyJwtGuard } from 'src/auth/guard/myjwt.guard';
+import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 
 @Controller('calendar')
 export class CalendarController {

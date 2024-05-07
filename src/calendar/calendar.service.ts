@@ -6,7 +6,7 @@ import {
   CalendarDocument,
   Event,
   EventDocument,
-} from 'schemas/calendar.schema';
+} from '../../schemas/calendar.schema';
 
 @Injectable()
 export class CalendarService {
