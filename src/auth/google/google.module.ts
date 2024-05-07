@@ -12,11 +12,16 @@ import config from '../../common/configs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { ReserPasswordTokenSchema } from 'schemas/reset-password-token.schema';
+import { 
+  Progress, 
+  ProgressSchema 
+} from '../../../schemas/progress.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: 'User', schema: UserSchema },
+      { name: Progress.name, schema: ProgressSchema },
       { name: 'ReserPasswordToken', schema: ReserPasswordTokenSchema },
     ]),
     JwtModule.register({}),
