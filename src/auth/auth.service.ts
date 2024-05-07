@@ -12,7 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Token } from './models/token.model';
 import { SecurityConfig } from '../common/configs/config.interface';
-import { ReserPasswordToken } from 'schemas/reset-password-token.schema';
+import { ReserPasswordToken } from '../../schemas/reset-password-token.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MailerService } from '@nestjs-modules/mailer';

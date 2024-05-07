@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Message } from 'schemas/message.schema';
-import { User } from 'schemas/user.schema';
-import { ChatsService } from 'src/chat/chats.service';
+import { Message } from '../../schemas/message.schema';
+import { User } from '../../schemas/user.schema';
+import { ChatsService } from '../chat/chats.service';
 
 @Injectable()
 export class MessageService {

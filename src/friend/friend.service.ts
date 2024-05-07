@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Friend, FriendDocument } from 'schemas/friend.schema';
-import { User } from 'schemas/user.schema';
+import { Friend, FriendDocument } from '../../schemas/friend.schema';
+import { User } from '../../schemas/user.schema';
 
 @Injectable()
 export class FriendService {

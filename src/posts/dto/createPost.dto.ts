@@ -11,7 +11,7 @@ export class CreatePostDTO {
 
   newQuestion: CreateQuestionDTO;
 
-  imgs_url: [string];
+  imgs_url: string[];
 
   audio_url: string;
 }

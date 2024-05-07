@@ -1,17 +1,15 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
-  Put,
   UseGuards,
   Req,
 } from '@nestjs/common';
 import { FriendService } from './friend.service';
-import { MyJwtGuard } from 'src/auth/guard/myjwt.guard';
-import { UserService } from 'src/user/user.service';
+import { MyJwtGuard } from '../auth/guard/myjwt.guard';
+import { UserService } from '../user/user.service';
 
 @Controller('friends')
 export class FriendController {

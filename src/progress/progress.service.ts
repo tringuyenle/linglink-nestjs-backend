@@ -25,6 +25,7 @@ export class ProgressService {
         date: date,
         wrongAnswerQuestions: [],
         totalQuestions: [],
+        flashcards: [],
       });
       await newProgress.save();
     }

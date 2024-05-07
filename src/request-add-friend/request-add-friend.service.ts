@@ -1,13 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { RequestAddFriend } from 'schemas/request-add-friend.schema';
-import { ChatsService } from 'src/chat/chats.service';
-import { User } from 'schemas/user.schema';
+import { RequestAddFriend } from '../../schemas/request-add-friend.schema';
+import { ChatsService } from '../chat/chats.service';
+import { User } from '../../schemas/user.schema';
 import { RequestDto } from './dto/request.dto';
 import { NewRequestDto } from './dto/newRequest.dto';
-import { UserService } from 'src/user/user.service';
-import { FriendService } from 'src/friend/friend.service';
+import { UserService } from '../user/user.service';
+import { FriendService } from '../friend/friend.service';
 
 @Injectable()
 export class RequestAddFriendService {
