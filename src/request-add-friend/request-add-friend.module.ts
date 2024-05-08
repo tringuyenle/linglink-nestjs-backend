@@ -14,6 +14,10 @@ import {
   Friend, 
   FriendSchema 
 } from 'schemas/friend.schema';
+import { 
+  Progress, 
+  ProgressSchema 
+} from '../../schemas/progress.schema';
 
 @Module({
   imports: [
@@ -22,6 +26,7 @@ import {
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'User', schema: UserSchema },
       { name: Friend.name, schema: FriendSchema },
+      { name: Progress.name, schema: ProgressSchema },  
     ]),
   ],
   controllers: [RequestAddFriendController],

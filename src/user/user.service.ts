@@ -6,9 +6,13 @@ import { CreateUserDTO } from './dto/createUser.dto';
 import { CreateUserByOauthDTO } from './dto/createUserByOauth.dto';
 import * as argon from 'argon2';
 import { UserDTO } from './dto/userDto.dto';
+import { Progress, ProgressDocument } from '../../schemas/progress.schema';
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<User>,
+    @InjectModel(Progress.name) private readonly progressModel: Model<ProgressDocument>
+  ) {}
 
   async getByUserEmail(email: string) {
     const user = await this.userModel.findOne({ email: email }).exec();
@@ -63,6 +67,15 @@ export class UserService {
   async create(userData: CreateUserDTO) {
     const newUser = await this.userModel.create(userData);
     await newUser.save();
+    const date = new Date();
+    const newProgress = new this.progressModel({
+      user: newUser._id,
+      date: date,
+      wrongAnswerQuestions: [],
+      totalQuestions: [],
+      flashcards: [],
+    });
+    await newProgress.save();
     return newUser;
   }
 
