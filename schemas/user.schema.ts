@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { UserRoles } from '../src/common/enums/user.enum';
 import { IsEnum } from 'class-validator';
-import { ObjectId } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
 
 export class Target {
   description: string;
@@ -13,7 +13,7 @@ export class Target {
 
 @Schema({ timestamps: true })
 export class User {
-  _id: ObjectId;
+  _id: Types.ObjectId;
 
   @Prop({ unique: true })
   email: string;

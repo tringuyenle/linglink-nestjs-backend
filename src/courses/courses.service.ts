@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Course, CourseProps } from 'schemas/course.schema';
+import { Course, CourseProps } from '../../schemas/course.schema';
 
 @Injectable()
 export class CourseService {
@@ -64,7 +64,6 @@ export class CourseService {
 
   async create(courseProps: CourseProps): Promise<Course> {
     const createdCourse = new this.courseModel(courseProps);
-    console.log(courseProps);
     return createdCourse.save();
   }
 

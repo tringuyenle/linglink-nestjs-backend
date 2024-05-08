@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { Post } from './post.schema';
 import { User } from './user.schema';
 
 @Schema({ timestamps: true })
 export class Comment {
-    _id: ObjectId;
+    _id: Types.ObjectId;
     
     @Prop()
     content: string;
