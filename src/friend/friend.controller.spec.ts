@@ -39,6 +39,8 @@ describe('FriendController', () => {
       role: UserRoles.STUDENT,
       avatar: '',
       target: null,
+      description: '',
+      phoneNumber: ''
     };
     const user: User = {
       email: 'user2@example.com',
@@ -48,6 +50,8 @@ describe('FriendController', () => {
       role: UserRoles.STUDENT,
       avatar: '',
       target: null,
+      description: '',
+      phoneNumber: ''
     };
     const newFriend: any = ({
       user: user._id.toString(),
@@ -71,7 +75,9 @@ describe('FriendController', () => {
         name: 'User 2',
         role: UserRoles.STUDENT,
         avatar: '',
-        target: null
+        target: null,
+        description: '',
+        phoneNumber: ''
       },
       { 
         _id: new Types.ObjectId(),
@@ -80,7 +86,9 @@ describe('FriendController', () => {
         name: 'User 3',
         role: UserRoles.STUDENT,
         avatar: '',
-        target: null
+        target: null,
+        description: '',
+        phoneNumber: ''
       }
     ];
 
