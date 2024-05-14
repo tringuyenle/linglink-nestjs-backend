@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -65,5 +66,11 @@ export class UserController {
     @Body() target: { description: string; startDate: Date; targetDate: Date },
   ) {
     return this.userService.setTarget(req.user._id, target);
+  }
+
+  @Put('')
+  @UseGuards(MyJwtGuard)
+  async updateUser(@Req() req, @Body() user: { avatar: string }) {
+    return this.userService.updateUser(req.user._id, user.avatar);
   }
 }

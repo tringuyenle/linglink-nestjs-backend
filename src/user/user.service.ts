@@ -11,7 +11,8 @@ import { Progress, ProgressDocument } from '../../schemas/progress.schema';
 export class UserService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>,
-    @InjectModel(Progress.name) private readonly progressModel: Model<ProgressDocument>
+    @InjectModel(Progress.name)
+    private readonly progressModel: Model<ProgressDocument>,
   ) {}
 
   async getByUserEmail(email: string) {
@@ -135,5 +136,15 @@ export class UserService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async updateUser(userId: string, avatar: string) {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.avatar = avatar;
+    const updatedUser = await user.save();
+    return updatedUser;
   }
 }

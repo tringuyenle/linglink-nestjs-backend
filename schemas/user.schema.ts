@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { UserRoles } from '../src/common/enums/user.enum';
 import { IsEnum } from 'class-validator';
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 
 export class Target {
   description: string;
@@ -33,6 +33,12 @@ export class User {
 
   @Prop()
   target: Target;
+
+  @Prop()
+  description: string;
+
+  @Prop()
+  phoneNumber: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
