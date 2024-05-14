@@ -124,4 +124,25 @@ export class RequestAddFriendService {
       )
       .populate('sender', '-role -createdAt -updatedAt -hashedPassword -__v');
   }
+
+  getMyRequestList(user: User) {
+    return this.requestAddFriendModel
+      .find(
+        { sender: user._id, status: 'PENDING' },
+        { createdAt: 0, updatedAt: 0, __v: 0 },
+      )
+      .populate('receiver', '-role -createdAt -updatedAt -hashedPassword -__v');
+  }
+
+  async deleteRequest(user: User, request: string) {
+    try {
+      const result = await this.requestAddFriendModel.findOneAndDelete({
+        sender: user._id,
+        _id: request,
+      });
+      return result;
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

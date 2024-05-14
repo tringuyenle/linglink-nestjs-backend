@@ -43,7 +43,9 @@ describe('CommentsController', () => {
     _id: new Types.ObjectId(),
     role: UserRoles.ADMIN,
     avatar: '',
-    target: null
+    target: null,
+    description: '',
+    phoneNumber: ''
   };
 
   const dto: CreateCommentDTO = {
@@ -114,7 +116,9 @@ describe('CommentsController', () => {
         name: '',
         role: UserRoles.ADMIN,
         avatar: '',
-        target: null
+        target: null,
+        description: '',
+        phoneNumber: ''
       },
       content: dto.content,
       numComments: 0,

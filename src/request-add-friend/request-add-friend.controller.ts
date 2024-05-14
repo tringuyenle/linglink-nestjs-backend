@@ -1,10 +1,12 @@
-import { 
-  Body, 
-  Controller, 
-  Get, 
-  Post, 
-  Req, 
-  UseGuards 
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { NewRequestDto } from './dto/newRequest.dto';
@@ -39,5 +41,21 @@ export class RequestAddFriendController {
   @UseGuards(MyJwtGuard)
   getRequestList(@Req() req) {
     return this.requestAddFriendService.getRequestList(req.user);
+  }
+
+  @Get('add')
+  @UseGuards(MyJwtGuard)
+  getMyRequestList(@Req() req) {
+    return this.requestAddFriendService.getMyRequestList(req.user);
+  }
+
+  @Delete(':id')
+  @UseGuards(MyJwtGuard)
+  DeleteRequest(
+    @Req() req,
+    @Param('id')
+    id: string,
+  ) {
+    return this.requestAddFriendService.deleteRequest(req.user, id);
   }
 }
