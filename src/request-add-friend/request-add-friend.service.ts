@@ -76,9 +76,7 @@ export class RequestAddFriendService {
           `User ${request.receiver} is not authorized to accept this request`,
         );
 
-      await this.requestAddFriendModel.findByIdAndUpdate(request._id, {
-        status: 'DONE',
-      });
+      await this.requestAddFriendModel.findByIdAndDelete(request._id);
 
       const newChatRoom = await this.chatsService.createChatRoom({
         request: request,
