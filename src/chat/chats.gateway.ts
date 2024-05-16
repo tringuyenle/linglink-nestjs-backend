@@ -114,14 +114,7 @@ export class ChatsGateway
         const receiver = client.user._id.toString();
         this.io.to(receiver).emit('request', {
           type: 'NOTI',
-          content: 'You have already sent request',
-          receiver: receiver,
-        });
-      } else if (newRequest === 'DONE') {
-        const receiver = client.user._id.toString();
-        this.io.to(receiver).emit('request', {
-          type: 'NOTI',
-          content: 'You have already been friend with him',
+          content: 'Bạn đã gửi yêu cầu trước đó',
           receiver: receiver,
         });
       } else

@@ -6,6 +6,7 @@ import {
   Post,
   UseGuards,
   Req,
+  Delete,
 } from '@nestjs/common';
 import { FriendService } from './friend.service';
 import { MyJwtGuard } from '../auth/guard/myjwt.guard';
@@ -29,5 +30,11 @@ export class FriendController {
   @Get('/:userId')
   async getEvents(@Param('userId') userId: string) {
     return this.friendService.getListFriends(userId);
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Delete('/:userId')
+  async deleteFriend(@Req() req: any, @Param('userId') userId: string) {
+    return this.friendService.deleteFriend(req.user, userId);
   }
 }
