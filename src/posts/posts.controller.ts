@@ -81,18 +81,20 @@ export class PostsController {
   @UseGuards(MyJwtGuard)
   getAllPostsByPagev2(
     @Req() req,
-    @Query('lastPostId') lastPostId: string,
+    @Query('lastPostTime') lastPostTime: Date,
     @Query('pageSize') pageSize: number = 10,
     @Query('topic') topic: string,
     @Query('author') author: string,
+    @Query('lastFetchTime') lastFetchTime: Date,
   ) {
     const userId = req.user._id.toString();
     return this.postsService.getAllPostsByPagev2(
-      lastPostId,
+      lastPostTime,
       userId,
       pageSize,
       topic,
       author,
+      lastFetchTime,
     );
   }
 }

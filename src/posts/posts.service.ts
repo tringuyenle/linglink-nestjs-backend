@@ -213,11 +213,12 @@ export class PostsService {
   }
 
   async getAllPostsByPagev2(
-    lastPostId: string,
+    lastPostTime: Date,
     userId: string,
     pageSize: number,
     topic: string,
     author: string,
+    lastFetchTime: Date,
   ): Promise<
     {
       data: Post;
@@ -234,8 +235,21 @@ export class PostsService {
       query.author = new Types.ObjectId(author);
     }
 
-    if (lastPostId) {
-      query._id = { $lt: lastPostId };
+    // If lastFetchTime is provided, fetch posts that were created after it
+    if (lastFetchTime) {
+      query.createdAt = { $gt: lastFetchTime };
+    }
+    
+    // if (lastPostId) {
+    //   query._id = { $lt: lastPostId };
+    // }
+
+    // If no new posts, fetch older posts
+    if (!lastFetchTime || (lastFetchTime && (await this.postModel.countDocuments(query)) === 0)) {
+      delete query.createdAt;
+      if (lastPostTime) {
+        query.createdAt = { $lt: lastPostTime };
+      }
     }
 
     if (topic) {

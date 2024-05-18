@@ -9,11 +9,9 @@ import {
   MessageBody,
   ConnectedSocket,
 } from '@nestjs/websockets';
-import { Message } from 'schemas/message.schema';
 import { Namespace } from 'socket.io';
 import { WsCatchAllFilter } from 'src/exceptions/ws-catch-all-filter';
 import { WsBadRequestException } from 'src/exceptions/ws-exceptions';
-import { ChatsService } from './chats.service';
 import { CreateMessageDTO } from './dto/createMessage.dto';
 import { SocketWithAuth } from './types';
 import { MessageService } from 'src/message/message.service';
@@ -26,7 +24,6 @@ export class ChatsGateway
 {
   private readonly logger = new Logger(ChatsGateway.name);
   constructor(
-    private readonly chatsService: ChatsService,
     private readonly messageService: MessageService,
     private readonly requestAddFriendService: RequestAddFriendService,
   ) {}
@@ -117,14 +114,7 @@ export class ChatsGateway
         const receiver = client.user._id.toString();
         this.io.to(receiver).emit('request', {
           type: 'NOTI',
-          content: 'You have already sent request',
-          receiver: receiver,
-        });
-      } else if (newRequest === 'DONE') {
-        const receiver = client.user._id.toString();
-        this.io.to(receiver).emit('request', {
-          type: 'NOTI',
-          content: 'You have already been friend with him',
+          content: 'Bạn đã gửi yêu cầu trước đó',
           receiver: receiver,
         });
       } else

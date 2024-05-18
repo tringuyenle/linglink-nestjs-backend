@@ -104,12 +104,13 @@ describe('PostsController', () => {
 
   it('should call getAllPostsByPagev2 with correct parameters and return the result', async () => {
     const req = { user: { _id: 'testId' } };
-    const lastPostId = 'testLastPostId';
     const pageSize = 10;
     const topic = 'testTopic';
     const author = 'testAuthor';
-    const result = await controller.getAllPostsByPagev2(req, lastPostId, pageSize, topic, author);
-    expect(service.getAllPostsByPagev2).toHaveBeenCalledWith(lastPostId, req.user._id.toString(), pageSize, topic, author);
+    const lastFetchTime = new Date()
+    const lastPostTime = new Date(); 
+    const result = await controller.getAllPostsByPagev2(req, lastPostTime, pageSize, topic, author, lastFetchTime); // Add lastFetchTime argument
+    expect(service.getAllPostsByPagev2).toHaveBeenCalledWith(lastPostTime, req.user._id.toString(), pageSize, topic, author, lastFetchTime); // Add lastFetchTime argument
     expect(result).toBe('getAllPostsByPagev2Result');
   });
 });
