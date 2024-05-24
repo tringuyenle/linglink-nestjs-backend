@@ -1,0 +1,47 @@
+import { Model, Types } from 'mongoose';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from 'schemas/user.schema';
+import { Notification, NotificationDocument } from '../../schemas/notification.schema';
+import { CreateNotificationDto } from './dto/create-notification.dto';
+
+@Injectable()
+export class NotificationService {
+  constructor(
+    @InjectModel(Notification.name) private notificationModel: Model<NotificationDocument>,
+    @InjectModel('User') private userModel: Model<User>,
+  ) {}
+
+  async create(sender: User, data: CreateNotificationDto) {
+    // const reciever = await this.userModel.findOne({ _id: data.reciever }).exec();
+
+    const newNoti = new this.notificationModel({
+      sender: sender._id,
+      reciever: new Types.ObjectId(data.reciever),
+      title: data.title,
+      content: data.content
+    });
+    
+    await newNoti.save();
+  }
+
+  async getNotificationByUserId(
+    user: User,
+    lastNoti?: string,
+  ): Promise<NotificationDocument[]> {
+    const query: any = {};
+    query.reciever = user._id;
+
+    if (lastNoti !== undefined) {
+      query._id = { $lt: lastNoti };
+    }
+
+    const result = await this.notificationModel
+      .find(query)
+      .populate('sender', 'name avatar')
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .exec();
+    return result;
+  }
+}
