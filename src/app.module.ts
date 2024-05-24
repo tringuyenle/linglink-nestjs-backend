@@ -20,6 +20,7 @@ import { MessageModule } from './message/message.module';
 import { FriendModule } from './friend/friend.module';
 import { ProgressModule } from './progress/progress.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { NotificationModule } from './notification/notification.module';
 require('dotenv').config();
 
 @Module({
@@ -43,6 +44,7 @@ require('dotenv').config();
     MessageModule,
     FriendModule,
     ProgressModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
