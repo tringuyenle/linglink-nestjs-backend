@@ -1,5 +1,5 @@
 import { Model, Types } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'schemas/user.schema';
 import { Notification, NotificationDocument } from '../../schemas/notification.schema';
@@ -23,6 +23,7 @@ export class NotificationService {
     });
     
     await newNoti.save();
+    return HttpStatus.CREATED;
   }
 
   async getNotificationByUserId(
