@@ -17,6 +17,8 @@ import { RequestAddFriendSchema } from '../../schemas/request-add-friend.schema'
 import { FriendService } from '../friend/friend.service';
 import { Friend, FriendSchema } from '../../schemas/friend.schema';
 import { Progress, ProgressSchema } from '../../schemas/progress.schema';
+import { NotificationService } from '../notification/notification.service';
+import { Notification, NotificationSchema } from '../../schemas/notification.schema';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { Progress, ProgressSchema } from '../../schemas/progress.schema';
       { name: 'RequestAddFriend', schema: RequestAddFriendSchema },
       { name: Friend.name, schema: FriendSchema },
       { name: Progress.name, schema: ProgressSchema },
+      { name: Notification.name, schema: NotificationSchema },
     ]),
   ],
   providers: [
@@ -40,6 +43,7 @@ import { Progress, ProgressSchema } from '../../schemas/progress.schema';
     MessageService,
     RequestAddFriendService,
     FriendService,
+    NotificationService
   ],
   controllers: [ChatsController],
 })
