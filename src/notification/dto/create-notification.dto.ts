@@ -1,5 +1,5 @@
 export class CreateNotificationDto {
-  readonly reciever: string;
+  readonly receiver: string;
   readonly title: string;
   readonly content: string;
 }

@@ -16,7 +16,6 @@ import { CreateMessageDTO } from './dto/createMessage.dto';
 import { SocketWithAuth } from './types';
 import { MessageService } from '../message/message.service';
 import { RequestAddFriendService } from '../request-add-friend/request-add-friend.service';
-import { title } from 'process';
 import { NotificationService } from '../notification/notification.service';
 
 @UseFilters(new WsCatchAllFilter())
@@ -104,25 +103,23 @@ export class ChatsGateway
 
   @SubscribeMessage('send-notification')
   async sendNoti(
-    @MessageBody() noti: { reciever: string, title: string, content: string},
+    @MessageBody() noti: { receiver: string; title: string; content: string },
     @ConnectedSocket() client: SocketWithAuth,
   ): Promise<void> {
-
-
     this.logger.debug(
-      `${client.user.name} sent notification to ${noti.reciever} with title: ${noti.title} and content: ${noti.content}`,
+      `${client.user.name} sent notification to ${noti.receiver} with title: ${noti.title} and content: ${noti.content}`,
     );
 
     const newNotification = {
-      reciever: noti.reciever,
+      receiver: noti.receiver,
       title: noti.title,
-      content: noti.content
+      content: noti.content,
     };
 
     this.notificationService.create(client.user, newNotification);
-    this.io.to(noti.reciever).emit('notification', {
+    this.io.to(noti.receiver).emit('notification', {
       ...newNotification,
-      sender: {name: client.user.name, avatar: client.user.avatar}
+      sender: { name: client.user.name, avatar: client.user.avatar },
     });
   }
 
@@ -167,8 +164,8 @@ export class ChatsGateway
       });
       this.io.to(request.receiver).emit('notification', {
         title: ' đã chấp nhận lời mời kết bạn!',
-        sender: {name: client.user.name, avatar: client.user.avatar},
-        content: ''
+        sender: { name: client.user.name, avatar: client.user.avatar },
+        content: '',
       });
       this.io.to(client.user._id.toString()).emit('accept_status', {
         content: null,
@@ -179,8 +176,8 @@ export class ChatsGateway
       await this.requestAddFriendService.denyRequest(client.user, requestDto);
       this.io.to(request.receiver).emit('notification', {
         title: ' đã từ chối lời mời kết bạn',
-        sender: {name: client.user.name, avatar: client.user.avatar},
-        content: ''
+        sender: { name: client.user.name, avatar: client.user.avatar },
+        content: '',
       });
     }
     this.logger.debug(
