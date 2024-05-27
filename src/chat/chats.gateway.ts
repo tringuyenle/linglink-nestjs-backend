@@ -10,12 +10,13 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Namespace } from 'socket.io';
-import { WsCatchAllFilter } from 'src/exceptions/ws-catch-all-filter';
-import { WsBadRequestException } from 'src/exceptions/ws-exceptions';
+import { WsCatchAllFilter } from '../exceptions/ws-catch-all-filter';
+import { WsBadRequestException } from '../exceptions/ws-exceptions';
 import { CreateMessageDTO } from './dto/createMessage.dto';
 import { SocketWithAuth } from './types';
-import { MessageService } from 'src/message/message.service';
-import { RequestAddFriendService } from 'src/request-add-friend/request-add-friend.service';
+import { MessageService } from '../message/message.service';
+import { RequestAddFriendService } from '../request-add-friend/request-add-friend.service';
+import { NotificationService } from '../notification/notification.service';
 
 @UseFilters(new WsCatchAllFilter())
 @WebSocketGateway({ namespace: 'chats' })
@@ -25,6 +26,7 @@ export class ChatsGateway
   private readonly logger = new Logger(ChatsGateway.name);
   constructor(
     private readonly messageService: MessageService,
+    private readonly notificationService: NotificationService,
     private readonly requestAddFriendService: RequestAddFriendService,
   ) {}
 
@@ -99,6 +101,28 @@ export class ChatsGateway
     this.io.to(message.chatRoomId).emit('getmessage', newMessage);
   }
 
+  @SubscribeMessage('send-notification')
+  async sendNoti(
+    @MessageBody() noti: { receiver: string; title: string; content: string },
+    @ConnectedSocket() client: SocketWithAuth,
+  ): Promise<void> {
+    this.logger.debug(
+      `${client.user.name} sent notification to ${noti.receiver} with title: ${noti.title} and content: ${noti.content}`,
+    );
+
+    const newNotification = {
+      receiver: noti.receiver,
+      title: noti.title,
+      content: noti.content,
+    };
+
+    this.notificationService.create(client.user, newNotification);
+    this.io.to(noti.receiver).emit('notification', {
+      ...newNotification,
+      sender: { name: client.user.name, avatar: client.user.avatar },
+    });
+  }
+
   @SubscribeMessage('request-add-friend')
   async request_friend(
     @MessageBody() request: { request: string; receiver: string; type: string },
@@ -139,8 +163,9 @@ export class ChatsGateway
         receiver: request.receiver,
       });
       this.io.to(request.receiver).emit('notification', {
-        content: ' đã chấp nhận lời mời kết bạn!',
-        sender: client.user.name,
+        title: ' đã chấp nhận lời mời kết bạn!',
+        sender: { name: client.user.name, avatar: client.user.avatar },
+        content: '',
       });
       this.io.to(client.user._id.toString()).emit('accept_status', {
         content: null,
@@ -150,8 +175,9 @@ export class ChatsGateway
       const requestDto = { request: request.request };
       await this.requestAddFriendService.denyRequest(client.user, requestDto);
       this.io.to(request.receiver).emit('notification', {
-        content: ' đã từ chối lời mời kết bạn',
-        sender: client.user.name,
+        title: ' đã từ chối lời mời kết bạn',
+        sender: { name: client.user.name, avatar: client.user.avatar },
+        content: '',
       });
     }
     this.logger.debug(
