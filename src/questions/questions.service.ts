@@ -45,9 +45,10 @@ export class QuestionsService {
     id: string,
     updateQuestionDto: UpdateQuestionDTO,
   ): Promise<Question> {
-    return this.questionModel
+    const result = await this.questionModel
       .findByIdAndUpdate(id, updateQuestionDto, { new: true })
       .exec();
+    return result;
   }
 
   async removeQuestionById(id: string): Promise<void> {

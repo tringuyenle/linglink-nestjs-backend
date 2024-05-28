@@ -77,9 +77,9 @@ export class PostsService {
   async getPostById(postId: string) {
     const post = await this.postModel
       .findById(postId)
+      .populate('author')
       .populate('question')
       .populate('topic')
-      .populate({ path: 'author', select: '-hashedPassword' })
       .exec();
     if (post) {
       return post;
@@ -94,6 +94,8 @@ export class PostsService {
     const post = await this.postModel
       .findById(postId)
       .populate({ path: 'author', select: '-hashedPassword' })
+      .populate('question')
+      .populate('topic')
       .exec();
 
     if (post) {
@@ -145,7 +147,7 @@ export class PostsService {
         postsData.question._id?.toString(),
         {
           content: postsData.question.content,
-          answer: postsData.question.answers,
+          answers: postsData.question.answers,
           key: postsData.question.key,
           audio_url: postsData.question.audio_url,
         },
