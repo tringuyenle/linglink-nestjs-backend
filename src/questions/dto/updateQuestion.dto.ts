@@ -3,7 +3,7 @@ export class UpdateQuestionDTO {
 
   content: string;
 
-  answer: string[];
+  answers: string[];
 
   key: number;
 
