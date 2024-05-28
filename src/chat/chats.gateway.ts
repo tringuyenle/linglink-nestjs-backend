@@ -43,7 +43,7 @@ export class ChatsGateway
       `Socket connected with userID: ${client.user._id}, and name: "${client.user.name}"`,
     );
 
-    this.logger.log(`WS Client with id: ${client.id} connected!`);
+    // this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
     client.join(client.user._id.toString());
@@ -86,9 +86,9 @@ export class ChatsGateway
     @MessageBody() message: CreateMessageDTO,
     @ConnectedSocket() client: SocketWithAuth,
   ): Promise<void> {
-    this.logger.debug(
-      `Attempting to add chat from user ${client.user._id} to room ${message.chatRoomId}\n${message.content}`,
-    );
+    // this.logger.debug(
+    //   `Attempting to add chat from user ${client.user._id} to room ${message.chatRoomId}\n${message.content}`,
+    // );
 
     const newMessage = {
       content: message.content,
@@ -106,9 +106,6 @@ export class ChatsGateway
     @MessageBody() noti: { receiver: string; title: string; content: string },
     @ConnectedSocket() client: SocketWithAuth,
   ): Promise<void> {
-    this.logger.debug(
-      `${client.user.name} sent notification to ${noti.receiver} with title: ${noti.title} and content: ${noti.content}`,
-    );
 
     const newNotification = {
       receiver: noti.receiver,
@@ -180,9 +177,9 @@ export class ChatsGateway
         content: '',
       });
     }
-    this.logger.debug(
-      ` user ${client.user.name} sent ${request} to ${request.receiver}`,
-    );
+    // this.logger.debug(
+    //   ` user ${client.user.name} sent ${request} to ${request.receiver}`,
+    // );
     // this.io.to(message.chatRoomId).emit('getmessage', newMessage);
   }
 }
