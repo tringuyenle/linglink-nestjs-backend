@@ -50,7 +50,7 @@ export class SocketIOAdapter extends IoAdapter {
       const token =
         socket.handshake.auth.token || socket.handshake.headers['token'];
 
-      logger.debug(`Validating auth token before connection: ${token}`);
+      // logger.debug(`Validating auth token before connection: ${token}`);
 
       try {
         const payload = await jwtService.verifyAsync(token, {
