@@ -42,7 +42,7 @@ export class PostsController {
 
   @Get(':id')
   @UseGuards(MyJwtGuard)
-  getPostById(@Req() req, @Query('postId') postId: string) {
+  getPostById(@Req() req, @Query('id') postId: string) {
     const userId = req.user._id.toString();
     return this.postsService.getPostWithReactById(userId, postId);
   }
