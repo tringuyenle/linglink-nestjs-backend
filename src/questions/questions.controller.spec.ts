@@ -21,16 +21,28 @@ describe('QuestionsController', () => {
         TagsService,
         {
           provide: getModelToken('Question'),
-          useValue: { 
+          useValue: {
             new: jest.fn().mockResolvedValue({
-              save: jest.fn().mockResolvedValue({ id: '1', title: 'Test title', content: 'Test content' }),
+              save: jest.fn().mockResolvedValue({
+                id: '1',
+                title: 'Test title',
+                content: 'Test content',
+              }),
             }),
             find: jest.fn().mockResolvedValue([]),
             findById: jest.fn().mockResolvedValue({
               populate: jest.fn().mockReturnThis(),
-              exec: jest.fn().mockResolvedValue({ id: '1', title: 'Test title', content: 'Test content' }),
+              exec: jest.fn().mockResolvedValue({
+                id: '1',
+                title: 'Test title',
+                content: 'Test content',
+              }),
             }),
-            findByIdAndUpdate: jest.fn().mockResolvedValue({ id: '1', title: 'Test title', content: 'Test content' }),
+            findByIdAndUpdate: jest.fn().mockResolvedValue({
+              id: '1',
+              title: 'Test title',
+              content: 'Test content',
+            }),
           },
         },
         {
@@ -40,8 +52,12 @@ describe('QuestionsController', () => {
               save: jest.fn().mockResolvedValue({ id: '1', name: 'Test tag' }),
             }),
             find: jest.fn().mockResolvedValue([]),
-            findById: jest.fn().mockResolvedValue({ id: '1', name: 'Test tag' }),
-            findByIdAndUpdate: jest.fn().mockResolvedValue({ id: '1', name: 'Test tag' }),
+            findById: jest
+              .fn()
+              .mockResolvedValue({ id: '1', name: 'Test tag' }),
+            findByIdAndUpdate: jest
+              .fn()
+              .mockResolvedValue({ id: '1', name: 'Test tag' }),
           },
         },
       ],
@@ -55,47 +71,53 @@ describe('QuestionsController', () => {
     expect(controller).toBeDefined();
   });
 
-describe('createQuestion', () => {
+  describe('createQuestion', () => {
     it('should create a question', async () => {
-        const dto: CreateQuestionDTO = {
-            content: 'Test content',
-            answers: [],
-            key: 0,
-            audio_url: ''
-        };
-        const result: Question = {
-            content: 'Test content',
-            _id: new Types.ObjectId('507f1f77bcf86cd799439011'),
-            type: QuestionTypes.MULTIPLE_CHOICE,
-            tagsList: [],
-            answers: [],
-            key: 0,
-            audio_url: ''
-        };
+      const dto: CreateQuestionDTO = {
+        content: 'Test content',
+        answers: [],
+        key: 0,
+        audio_url: '',
+      };
+      const result: Question = {
+        content: 'Test content',
+        _id: new Types.ObjectId('507f1f77bcf86cd799439011'),
+        type: QuestionTypes.MULTIPLE_CHOICE,
+        tagsList: [],
+        answers: [],
+        key: 0,
+        audio_url: '',
+      };
 
-        jest.spyOn(service, 'createQuestion').mockImplementation(async () => result);
+      jest
+        .spyOn(service, 'createQuestion')
+        .mockImplementation(async () => result);
 
-        expect(await controller.createQuestion(dto)).toBe(result);
+      expect(await controller.createQuestion(dto)).toBe(result);
     });
-});
+  });
 
-describe('getAllQuestions', () => {
+  describe('getAllQuestions', () => {
     it('should get all questions', async () => {
-        const result: Question[] = [{
-            content: 'Test content',
-            _id: new Types.ObjectId('507f1f77bcf86cd799439011'),
-            type: QuestionTypes.MULTIPLE_CHOICE,
-            tagsList: [],
-            answers: [],
-            key: 0,
-            audio_url: ''
-        }];
+      const result: Question[] = [
+        {
+          content: 'Test content',
+          _id: new Types.ObjectId('507f1f77bcf86cd799439011'),
+          type: QuestionTypes.MULTIPLE_CHOICE,
+          tagsList: [],
+          answers: [],
+          key: 0,
+          audio_url: '',
+        },
+      ];
 
-        jest.spyOn(service, 'getAllQuestions').mockImplementation(async () => result);
+      jest
+        .spyOn(service, 'getAllQuestions')
+        .mockImplementation(async () => result);
 
-        expect(await controller.getAllQuestions()).toBe(result);
+      expect(await controller.getAllQuestions()).toBe(result);
     });
-});
+  });
 
   describe('getQuestionById', () => {
     it('should get a question by id', async () => {
@@ -107,10 +129,12 @@ describe('getAllQuestions', () => {
         tagsList: [],
         answers: [],
         key: 0,
-        audio_url: ''
-    };
+        audio_url: '',
+      };
 
-      jest.spyOn(service, 'getQuestionById').mockImplementation(async () => result);
+      jest
+        .spyOn(service, 'getQuestionById')
+        .mockImplementation(async () => result);
 
       expect(await controller.getQuestionById(id)).toBe(result);
     });
@@ -120,10 +144,10 @@ describe('getAllQuestions', () => {
     it('should update a question by id', async () => {
       const id = '507f1f77bcf86cd799439011';
       const dto: UpdateQuestionDTO = {
-          content: 'Updated content',
-          answer: [],
-          key: 0,
-          audio_url: ''
+        content: 'Updated content',
+        answers: [],
+        key: 0,
+        audio_url: '',
       };
       const result = {
         content: 'Test content',
@@ -132,10 +156,12 @@ describe('getAllQuestions', () => {
         tagsList: [],
         answers: [],
         key: 0,
-        audio_url: ''
-    };
+        audio_url: '',
+      };
 
-      jest.spyOn(service, 'updateQuestionById').mockImplementation(async () => result);
+      jest
+        .spyOn(service, 'updateQuestionById')
+        .mockImplementation(async () => result);
 
       expect(await controller.updateQuestionById(id, dto)).toBe(result);
     });
@@ -143,11 +169,13 @@ describe('getAllQuestions', () => {
 
   describe('removeQuestionById', () => {
     it('should remove a question by id', async () => {
-        const id = '507f1f77bcf86cd799439011';
+      const id = '507f1f77bcf86cd799439011';
 
-        jest.spyOn(service, 'removeQuestionById').mockImplementation(async () => { return; });
+      jest.spyOn(service, 'removeQuestionById').mockImplementation(async () => {
+        return;
+      });
 
-        expect(await controller.removeQuestionById(id)).toBe(undefined);
+      expect(await controller.removeQuestionById(id)).toBe(undefined);
     });
   });
 });
