@@ -70,7 +70,6 @@ export class FriendService {
 
       return user_friends.populate('friends');
     } catch (error) {
-      console.log(error)
       throw new Error('Failed to delete friend');
     }
   }
