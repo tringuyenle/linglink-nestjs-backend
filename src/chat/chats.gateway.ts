@@ -144,9 +144,15 @@ export class ChatsGateway
           request: newRequest,
           receiver: request.receiver,
         });
+      const newNotification = {
+        receiver: request.receiver,
+        title: ' đã gửi lời mời kết bạn đến bạn',
+        content: '',
+      };
+      this.notificationService.create(client.user, newNotification);
       this.io.to(request.receiver).emit('notification', {
-        content: ' đã gửi lời mời kết bạn đến bạn',
-        sender: client.user.name,
+        ...newNotification,
+        sender: { name: client.user.name, avatar: client.user.avatar },
       });
     } else if (request.type === 'ACCEPT') {
       const requestDto = { request: request.request };
@@ -159,10 +165,15 @@ export class ChatsGateway
         chatRoom: newChatRoom,
         receiver: request.receiver,
       });
-      this.io.to(request.receiver).emit('notification', {
+      const newNotification = {
+        receiver: request.receiver,
         title: ' đã chấp nhận lời mời kết bạn!',
-        sender: { name: client.user.name, avatar: client.user.avatar },
         content: '',
+      };
+      this.notificationService.create(client.user, newNotification);
+      this.io.to(request.receiver).emit('notification', {
+        ...newNotification,
+        sender: { name: client.user.name, avatar: client.user.avatar },
       });
       this.io.to(client.user._id.toString()).emit('accept_status', {
         content: null,
