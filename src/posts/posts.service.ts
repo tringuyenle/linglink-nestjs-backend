@@ -154,13 +154,13 @@ export class PostsService {
       );
     }
     const newData: any = { ...postsData };
-
+    if (postsData?.question?._id) newData.question = postsData?.question?._id;
     if (newQuestion !== '') {
-      newData.question = newQuestion;
+      newData.question = newQuestion._id;
     } else {
       if (!currentPost.question) newData.question = null;
     }
-
+    newData.topic = new Types.ObjectId(newData.topic);
     if (user.email === currentPost.author.email) {
       return await this.postModel.findOneAndUpdate(
         { _id: postId } as FilterQuery<Post>,
@@ -178,10 +178,10 @@ export class PostsService {
   async removePostById(user: User, postId: string) {
     const currentPost = await this.getPostById(postId);
     if (user.email === currentPost.author.email) {
-      await this.topicsService.deletePostInTopicById(
-        currentPost.topic.toString(),
-        currentPost,
-      );
+      // await this.topicsService.deletePostInTopicById(
+      //   currentPost.topic.toString(),
+      //   currentPost,
+      // );
       await this.reactionsService.removeReactionByPostId(
         currentPost.id.toString(),
       );
