@@ -43,7 +43,7 @@ export class ChatsGateway
       `Socket connected with userID: ${client.user._id}, and name: "${client.user.name}"`,
     );
 
-    this.logger.log(`WS Client with id: ${client.id} connected!`);
+    // this.logger.log(`WS Client with id: ${client.id} connected!`);
     this.logger.debug(`Number of connected sockets: ${sockets.size}`);
 
     client.join(client.user._id.toString());
@@ -86,9 +86,9 @@ export class ChatsGateway
     @MessageBody() message: CreateMessageDTO,
     @ConnectedSocket() client: SocketWithAuth,
   ): Promise<void> {
-    this.logger.debug(
-      `Attempting to add chat from user ${client.user._id} to room ${message.chatRoomId}\n${message.content}`,
-    );
+    // this.logger.debug(
+    //   `Attempting to add chat from user ${client.user._id} to room ${message.chatRoomId}\n${message.content}`,
+    // );
 
     const newMessage = {
       content: message.content,
@@ -106,9 +106,6 @@ export class ChatsGateway
     @MessageBody() noti: { receiver: string; title: string; content: string },
     @ConnectedSocket() client: SocketWithAuth,
   ): Promise<void> {
-    this.logger.debug(
-      `${client.user.name} sent notification to ${noti.receiver} with title: ${noti.title} and content: ${noti.content}`,
-    );
 
     const newNotification = {
       receiver: noti.receiver,
@@ -147,9 +144,15 @@ export class ChatsGateway
           request: newRequest,
           receiver: request.receiver,
         });
+      const newNotification = {
+        receiver: request.receiver,
+        title: ' đã gửi lời mời kết bạn đến bạn',
+        content: '',
+      };
+      this.notificationService.create(client.user, newNotification);
       this.io.to(request.receiver).emit('notification', {
-        content: ' đã gửi lời mời kết bạn đến bạn',
-        sender: client.user.name,
+        ...newNotification,
+        sender: { name: client.user.name, avatar: client.user.avatar },
       });
     } else if (request.type === 'ACCEPT') {
       const requestDto = { request: request.request };
@@ -162,10 +165,15 @@ export class ChatsGateway
         chatRoom: newChatRoom,
         receiver: request.receiver,
       });
-      this.io.to(request.receiver).emit('notification', {
+      const newNotification = {
+        receiver: request.receiver,
         title: ' đã chấp nhận lời mời kết bạn!',
-        sender: { name: client.user.name, avatar: client.user.avatar },
         content: '',
+      };
+      this.notificationService.create(client.user, newNotification);
+      this.io.to(request.receiver).emit('notification', {
+        ...newNotification,
+        sender: { name: client.user.name, avatar: client.user.avatar },
       });
       this.io.to(client.user._id.toString()).emit('accept_status', {
         content: null,
@@ -180,9 +188,9 @@ export class ChatsGateway
         content: '',
       });
     }
-    this.logger.debug(
-      ` user ${client.user.name} sent ${request} to ${request.receiver}`,
-    );
+    // this.logger.debug(
+    //   ` user ${client.user.name} sent ${request} to ${request.receiver}`,
+    // );
     // this.io.to(message.chatRoomId).emit('getmessage', newMessage);
   }
 }
