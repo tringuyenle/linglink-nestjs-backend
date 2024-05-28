@@ -69,12 +69,16 @@ export class PostsService {
     return await this.postModel
       .find()
       .populate({ path: 'author', select: '-hashedPassword' })
+      .populate('question')
+      .populate('topic')
       .exec();
   }
 
   async getPostById(postId: string) {
     const post = await this.postModel
       .findById(postId)
+      .populate('question')
+      .populate('topic')
       .populate({ path: 'author', select: '-hashedPassword' })
       .exec();
     if (post) {
@@ -138,7 +142,7 @@ export class PostsService {
       );
     } else if (postsData.question) {
       await this.questionsService.updateQuestionById(
-        postsData.question._id.toString(),
+        postsData.question._id?.toString(),
         {
           content: postsData.question.content,
           answer: postsData.question.answers,
@@ -239,13 +243,16 @@ export class PostsService {
     if (lastFetchTime) {
       query.createdAt = { $gt: lastFetchTime };
     }
-    
+
     // if (lastPostId) {
     //   query._id = { $lt: lastPostId };
     // }
 
     // If no new posts, fetch older posts
-    if (!lastFetchTime || (lastFetchTime && (await this.postModel.countDocuments(query)) === 0)) {
+    if (
+      !lastFetchTime ||
+      (lastFetchTime && (await this.postModel.countDocuments(query)) === 0)
+    ) {
       delete query.createdAt;
       if (lastPostTime) {
         query.createdAt = { $lt: lastPostTime };

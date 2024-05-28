@@ -48,4 +48,17 @@ export class MessageService {
       );
     }
   }
+  async viewMessages(ids: string[]): Promise<void> {
+    try {
+      await this.messageModel.updateMany(
+        { _id: { $in: ids } },
+        { $set: { isViewed: true } },
+      );
+    } catch (err) {
+      throw new HttpException(
+        'Failed to update message status',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

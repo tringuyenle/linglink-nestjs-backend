@@ -17,10 +17,7 @@ export class NotificationController {
 
   @UseGuards(MyJwtGuard)
   @Get()
-  async get(
-    @Req() req,
-    @Query('lastNoti') lastNoti?: string,
-  ) {
+  async get(@Req() req, @Query('lastNoti') lastNoti?: string) {
     return this.notificationService.getNotificationByUserId(req.user, lastNoti);
   }
 
@@ -30,9 +27,15 @@ export class NotificationController {
     @Req() req,
     @Body() createNotificationDto: CreateNotificationDto,
   ) {
-    return this.notificationService.create(
-      req.user,
-      createNotificationDto
-    );
+    return this.notificationService.create(req.user, createNotificationDto);
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Post('view')
+  async updateNotification(
+    @Req() req,
+    @Body() notifications: { ids: string[] },
+  ) {
+    return this.notificationService.viewNotifications(notifications.ids);
   }
 }
