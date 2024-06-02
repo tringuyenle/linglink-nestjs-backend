@@ -14,7 +14,7 @@ import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { GetUser } from './decorator';
 import { UserService } from './user.service';
 import { UserDTO } from './dto/userDto.dto';
-import { AdminGuard } from 'src/auth/guard/admin.guard';
+import { AdminGuard } from '../auth/guard/admin.guard';
 
 interface UserPaginationResult {
   users: User[];

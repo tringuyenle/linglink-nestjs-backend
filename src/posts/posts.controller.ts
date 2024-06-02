@@ -17,7 +17,7 @@ import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { CreatePostDTO } from './dto/createPost.dto';
 import { UpdatePostDTO } from './dto/updatePost.dto';
 import { PostsService } from './posts.service';
-import { AdminGuard } from 'src/auth/guard/admin.guard';
+import { AdminGuard } from '../auth/guard/admin.guard';
 
 //@UseGuards(MyJwtGuard)
 @Controller('posts')

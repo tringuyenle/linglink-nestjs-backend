@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { CourseService } from './courses.service';
 import { Course, CourseProps } from 'schemas/course.schema';
-import { AdminGuard } from 'src/auth/guard/admin.guard';
+import { AdminGuard } from '../auth/guard/admin.guard';
 
 interface CoursePaginationResult {
   courses: Course[];
