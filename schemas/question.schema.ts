@@ -32,6 +32,9 @@ export class Question {
 
   @Prop()
   audio_url: string;
+
+  @Prop()
+  imgs_url: string[];
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

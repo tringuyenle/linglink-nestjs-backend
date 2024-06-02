@@ -4,6 +4,18 @@ import { User } from './user.schema';
 
 export type ProgressDocument = Progress & Document;
 
+export type ProgressQuestion = {
+  question: Types.ObjectId;
+  answer: number;
+  createdAt: Date;
+};
+
+export type ProgressFlashcard = {
+  flashcard: Types.ObjectId;
+  isRemembered: boolean;
+  createdAt: Date;
+};
+
 @Schema()
 export class Progress extends Document {
   @Prop({ type: Types.ObjectId, ref: 'User' })
@@ -20,6 +32,12 @@ export class Progress extends Document {
 
   @Prop({ type: [Types.ObjectId], ref: 'Flashcard' })
   flashcards: Types.ObjectId[];
+
+  @Prop({ ref: 'Question' })
+  questions: ProgressQuestion[];
+
+  @Prop({ ref: 'Flashcard' })
+  flashcardsV2: ProgressFlashcard[];
 }
 
 export const ProgressSchema = SchemaFactory.createForClass(Progress);

@@ -33,12 +33,17 @@ export class NotificationService {
   async getNotificationByUserId(
     user: User,
     lastNoti?: string,
+    firstNoti?: string,
   ): Promise<NotificationDocument[]> {
     const query: any = {};
     query.receiver = user._id;
 
     if (lastNoti !== undefined) {
       query._id = { $lt: lastNoti };
+    }
+
+    if (firstNoti !== undefined) {
+      query._id = { $gt: lastNoti };
     }
 
     const result = await this.notificationModel

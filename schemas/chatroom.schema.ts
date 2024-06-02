@@ -4,14 +4,15 @@ import { User } from './user.schema';
 
 @Schema({ timestamps: true })
 export class ChatRoom {
-    @Prop({ type: String, unique: true })
-    chatRoomId: string;
+  @Prop({ type: String, unique: true })
+  chatRoomId: string;
 
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 
-    @Prop({ type: [Types.ObjectId], ref: 'User' })
-    participant: User[];
-};
+  @Prop({ type: [Types.ObjectId], ref: 'User' })
+  participant: User[];
+  
+}
 
 export const ChatRoomSchema = SchemaFactory.createForClass(ChatRoom);
