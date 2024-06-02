@@ -147,4 +147,24 @@ export class UserService {
     const updatedUser = await user.save();
     return updatedUser;
   }
+
+  async getUsers(
+    page: number = 1, 
+    limit: number = 10
+  ) {
+    const skip = (page - 1) * limit;
+  
+    const total = await this.userModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+    const users = await this.userModel.find({ role: 'student' })
+      .skip(skip)
+      .limit(limit)
+      .exec();
+  
+    return {
+      users,
+      pageSize: limit,
+      totalPage: totalPages,
+    };
+  }
 }

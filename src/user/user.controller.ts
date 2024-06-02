@@ -14,6 +14,13 @@ import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { GetUser } from './decorator';
 import { UserService } from './user.service';
 import { UserDTO } from './dto/userDto.dto';
+import { AdminGuard } from 'src/auth/guard/admin.guard';
+
+interface UserPaginationResult {
+  users: User[];
+  pageSize: number;
+  totalPage: number;
+}
 
 @Controller('user')
 export class UserController {
@@ -72,5 +79,17 @@ export class UserController {
   @UseGuards(MyJwtGuard)
   async updateUser(@Req() req, @Body() user: { avatar: string }) {
     return this.userService.updateUser(req.user._id, user.avatar);
+  }
+
+  @UseGuards(AdminGuard)
+  @Get('admin')
+  async getUsers(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<UserPaginationResult> {
+    return this.userService.getUsers(
+      page,
+      limit,
+    );
   }
 }

@@ -16,6 +16,7 @@ import {
   Progress, 
   ProgressSchema 
 } from '../../schemas/progress.schema';
+import { AdminStrategy } from './strategy/jwt-admin.strategy';
 
 @Module({
   imports: [
@@ -46,6 +47,6 @@ import {
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, JwtStrategy],
+  providers: [AuthService, UserService, JwtStrategy, AdminStrategy],
 })
 export class AuthModule {}
