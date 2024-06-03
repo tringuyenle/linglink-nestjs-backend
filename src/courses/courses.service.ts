@@ -58,6 +58,26 @@ export class CourseService {
     };
   }
 
+  async getCourse(
+    page: number = 1, 
+    limit: number = 10
+  ) {
+    const skip = (page - 1) * limit;
+  
+    const total = await this.courseModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+    const courses = await this.courseModel.find()
+      .skip(skip)
+      .limit(limit)
+      .exec();
+  
+    return {
+      courses,
+      pageSize: limit,
+      totalPage: totalPages,
+    };
+  }
+
   async findById(id: string): Promise<Course | null> {
     return this.courseModel.findById(id).exec();
   }

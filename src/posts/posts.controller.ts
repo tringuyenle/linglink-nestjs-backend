@@ -17,6 +17,7 @@ import { MyJwtGuard } from '../auth/guard/myjwt.guard';
 import { CreatePostDTO } from './dto/createPost.dto';
 import { UpdatePostDTO } from './dto/updatePost.dto';
 import { PostsService } from './posts.service';
+import { AdminGuard } from '../auth/guard/admin.guard';
 
 //@UseGuards(MyJwtGuard)
 @Controller('posts')
@@ -95,6 +96,18 @@ export class PostsController {
       topic,
       author,
       lastFetchTime,
+    );
+  }
+
+  @UseGuards(AdminGuard)
+  @Get('admin')
+  async getUsers(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<any> {
+    return this.postsService.getPosts(
+      page,
+      limit,
     );
   }
 }

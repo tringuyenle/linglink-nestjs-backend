@@ -7,9 +7,11 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CourseService } from './courses.service';
 import { Course, CourseProps } from 'schemas/course.schema';
+import { AdminGuard } from '../auth/guard/admin.guard';
 
 interface CoursePaginationResult {
   courses: Course[];
@@ -43,6 +45,18 @@ export class CourseController {
       courseTypes,
       sortField,
       sortOrder,
+    );
+  }
+
+  @UseGuards(AdminGuard)
+  @Get('admin')
+  async getCourse(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<CoursePaginationResult> {
+    return this.courseService.getCourse(
+      page,
+      limit,
     );
   }
 

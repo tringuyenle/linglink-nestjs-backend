@@ -319,4 +319,24 @@ export class PostsService {
       throw error;
     }
   }
+
+  async getPosts(
+    page: number = 1, 
+    limit: number = 10
+  ) {
+    const skip = (page - 1) * limit;
+  
+    const total = await this.postModel.countDocuments();
+    const totalPages = Math.ceil(total / limit);
+    const posts = await this.postModel.find()
+      .skip(skip)
+      .limit(limit)
+      .exec();
+  
+    return {
+      posts,
+      pageSize: limit,
+      totalPage: totalPages,
+    };
+  }
 }
